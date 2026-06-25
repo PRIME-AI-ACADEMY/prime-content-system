@@ -1,0 +1,9 @@
+{
+  "name": "prime-content-system",
+  "version": "0.2.0",
+  "description": "PRIME AI — кастомизируемая контент-система. Скиллы-конструкторы (offer-builder, audience-builder, tone-of-voice-builder) дают каждому пользователю собрать СВОЙ фундамент: оффер, аудиторию и голос. Контент-конвейер генерит Reels, карусели, посты, сторис и статьи под этот профиль. Хранение в Google Drive / Таблицах.",
+  "author": {
+    "name": "Angelina Khudiakova"
+  },
+  "keywords": ["content", "reels", "carousel", "marketing", "offer", "tone-of-voice"]
+}
