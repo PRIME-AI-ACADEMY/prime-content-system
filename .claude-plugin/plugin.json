@@ -1,9 +1,9 @@
 {
   "name": "prime-content-system",
-  "version": "0.3.0",
-  "description": "PRIME AI — кастомизируемая контент-система. Скиллы-конструкторы (offer-builder, audience-builder, tone-of-voice-builder, business-dna, hunt-ladder) собирают фундамент; контент-конвейер генерит Reels, карусели, посты, сторис, статьи; autopost публикует в соцсети через Postiz; content-routine ставит всё на автопилот. Хранение — Google Drive / Таблицы.",
+  "version": "0.3.1",
+  "description": "PRIME AI — кастомизируемая контент-система. Скиллы-конструкторы (offer-builder, audience-builder, tone-of-voice-builder, business-dna, hunt-ladder, design-system-builder) собирают фундамент; контент-конвейер генерит Reels, карусели, посты, сторис, статьи; autopost публикует в соцсети через Postiz; content-routine ставит всё на автопилот. Хранение — Google Drive / Таблицы.",
   "author": {
     "name": "Angelina Khudiakova"
   },
-  "keywords": ["content", "reels", "carousel", "marketing", "offer", "tone-of-voice", "autopost", "postiz", "routine", "automation"]
+  "keywords": ["content", "reels", "carousel", "marketing", "offer", "tone-of-voice", "design-system", "autopost", "postiz", "routine", "automation"]
 }
