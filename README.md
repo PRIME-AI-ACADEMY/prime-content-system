@@ -1,6 +1,6 @@
 # PRIME AI — Content System
 
-Кастомизируемая контент-система. Каждый пользователь собирает **свой** фундамент (оффер, аудиторию, голос, цели), а оркестратор строит контент-план под его цели и генерит готовый контент. Хранение — Google Drive / Таблицы.
+Кастомизируемая контент-система. Каждый пользователь собирает **свой** фундамент (оффер, аудиторию, голос, цели), оркестратор строит контент-план под его цели, генерит готовый контент, **публикует в соцсети** и может работать **на автопилоте**. Хранение — Google Drive / Таблицы.
 
 ## Логика «одной сессии»
 
@@ -8,16 +8,19 @@
 «Дай контент-план на 2 недели, задача — 300 регистраций на вебинар»
         │
         ▼
-business-dna → audience-builder → hunt-ladder → offer-builder → tone-of-voice-builder   (фундамент: профили в Google Drive)
+ business-dna → audience-builder → hunt-ladder → offer-builder → tone-of-voice-builder   (фундамент: профили в Google Drive)
         │
         ▼
-content-plan  (читает все профили → строит календарь на 1–4 недели в Google-таблице)
+ content-plan  (читает профили → календарь в Google-таблице, статусы: План → Запланировано → Опубликовано)
         │
         ▼
-content-pipeline → reels · carousel · short-post · long-post · stories · article   (генерация под профиль)
+ content-pipeline → reels · carousel · short-post · long-post · stories · article   (генерация под профиль)
         │
         ▼
-картинки/видео (Higgsfield) → Google Drive → ссылка + статус «утвердить» в контент-плане
+ медиа (Higgsfield / код) → Google Drive → ссылка + статус в контент-плане
+        │
+        ▼
+ autopost → Postiz (Instagram, TikTok, Facebook, …)      ← content-routine ставит это на автопилот
 ```
 
 ## Скиллы
@@ -34,11 +37,23 @@ content-pipeline → reels · carousel · short-post · long-post · stories · 
 - `content-pipeline` — конвейер: исходник → золотые куски → все форматы
 - `reels` · `carousel` · `short-post` · `long-post` · `stories` · `article`
 
-## Как пользоваться
+**Публикация и автопилот:**
+- `autopost` — публикация/планирование готового контента в соцсети через **Postiz** (Instagram, TikTok, Facebook и др.)
+- `content-routine` — ежедневный автопилот: утром генерит на N дней вперёд, ночью автопостит (cron)
 
-1. Установи плагин.
-2. Собери фундамент: прогони `business-dna`, `offer-builder`, `audience-builder`, `hunt-ladder`, `tone-of-voice-builder`.
-3. Скажи: «нужен контент-план на 2 недели, задача — …» → система построит календарь и сгенерит контент под твой профиль.
+## Коннекторы
+Higgsfield (генерация) · Google Drive · Google Sheets · Postiz (автопостинг) — через Composio. Код-рендер каруселей — через headless Chrome + ffmpeg.
+
+## Принципы (обязательно)
+- **Читаемость текста:** на фото — тёмная подложка-скрим, контраст, текст никогда не на лице.
+- **Обращение:** нейтральное на «ты», никогда женский род.
+- **Банк фото:** выбор по `photo-catalog.md`; лицо не обрезать. См. `skills/carousel/references/text-and-photo-rules.md`.
+
+## Как пользоваться
+1. Установи плагин, подключи коннекторы (Higgsfield, Google Drive/Sheets, Postiz).
+2. Собери фундамент: `business-dna`, `offer-builder`, `audience-builder`, `hunt-ladder`, `tone-of-voice-builder`.
+3. «Нужен контент-план на 2 недели, задача — …» → система построит календарь и сгенерит контент.
+4. Поставь `content-routine` на расписание — генерация и автопостинг пойдут сами.
 
 ---
 Автор: Angelina Khudiakova · PRIME AI
