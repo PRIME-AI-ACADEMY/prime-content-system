@@ -1,7 +1,7 @@
 {
   "name": "prime-content-system",
-  "version": "0.5.0",
-  "description": "PRIME AI — кастомизируемая контент-система. Скиллы-конструкторы (offer-builder, audience-builder, tone-of-voice-builder, business-dna, hunt-ladder, design-system-builder) собирают фундамент; текстовые скиллы пишут по движку copy-engine (анти-ИИ голос + 300 хуков + вирусные форматы + CTA на рост); autopost через Postiz; content-routine — автопилот. Хранение — Google Drive / Таблицы.",
+  "version": "0.6.0",
+  "description": "PRIME AI — кастомизируемая контент-система. Фундамент (offer, audience, tone-of-voice, business-dna, hunt-ladder, design-system); текстовые скиллы по движку copy-engine (анти-ИИ голос + 300 хуков + вирусные форматы + CTA на рост); content-plan — план в чат → образец 2 постов → оформленная таблица; autopost через Postiz; content-routine — автопилот. Хранение — Google Drive / Таблицы.",
   "author": {
     "name": "Angelina Khudiakova"
   },
