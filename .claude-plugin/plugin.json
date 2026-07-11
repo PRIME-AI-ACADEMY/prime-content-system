@@ -1,7 +1,7 @@
 {
   "name": "prime-content-system",
-  "version": "0.7.3",
-  "description": "PRIME AI — кастомизируемая контент-система. Фундамент (offer, audience, tone-of-voice, business-dna, hunt-ladder, design-system); текстовые скиллы по движку copy-engine; content-plan — промпт на каждый слайд и 4 типа карусели; carousel — типы A/B/C/D; setup-check — диагностика; autopost — Metricool (MCP, бесплатно) / Postiz / Meta Graph API / ручной; content-routine — автопилот. Хранение — Google Drive / Таблицы.",
+  "version": "0.7.4",
+  "description": "PRIME AI — кастомизируемая контент-система. Фундамент (offer, audience, tone-of-voice — глубокий захват голоса из текстов/курсов + гейт применения, business-dna, hunt-ladder, design-system); тексты по copy-engine; content-plan — промпт на каждый слайд и 4 типа карусели; carousel — типы A/B/C/D; setup-check — диагностика; autopost — Metricool/Postiz/Meta/ручной; content-routine — автопилот. Хранение — Google Drive / Таблицы.",
   "author": {
     "name": "Angelina Khudiakova"
   },
