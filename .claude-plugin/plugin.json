@@ -1,9 +1,9 @@
 {
   "name": "prime-content-system",
-  "version": "0.7.4",
-  "description": "PRIME AI — кастомизируемая контент-система. Фундамент (offer, audience, tone-of-voice — глубокий захват голоса из текстов/курсов + гейт применения, business-dna, hunt-ladder, design-system); тексты по copy-engine; content-plan — промпт на каждый слайд и 4 типа карусели; carousel — типы A/B/C/D; setup-check — диагностика; autopost — Metricool/Postiz/Meta/ручной; content-routine — автопилот. Хранение — Google Drive / Таблицы.",
+  "version": "0.8.0",
+  "description": "PRIME AI — кастомизируемая контент-система. Фундамент (business-dna, audience, hunt-ladder, offer, tone-of-voice с глубоким захватом голоса, design-system); content-plan — промпт на каждый слайд + маршрут производства; carousel — 3 маршрута: Higgsfield nano_banana_pro с reference sheet / код Python+Pillow без браузера / Canva; setup-check; autopost — Metricool/Postiz/Meta; content-routine — автопилот. Хранение — Google Drive / Таблицы.",
   "author": {
     "name": "Angelina Khudiakova"
   },
-  "keywords": ["content", "reels", "carousel", "hooks", "copywriting", "viral", "marketing", "offer", "tone-of-voice", "design-system", "autopost", "metricool", "postiz", "meta", "instagram", "routine", "automation", "setup-check"]
+  "keywords": ["content", "reels", "carousel", "canva", "pillow", "hooks", "copywriting", "marketing", "offer", "tone-of-voice", "design-system", "autopost", "metricool", "postiz", "instagram", "routine", "automation", "setup-check"]
 }
