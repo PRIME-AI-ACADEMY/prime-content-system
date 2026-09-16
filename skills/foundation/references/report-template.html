@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ИМЯ}} — Стратегический фундамент</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --pine:#00311E; --pine-2:#0A4A2F; --beige:#FEF7E5; --paper:#FFFDF7;
+  --gold:#C89646; --gold-l:#E8B96A; --ink:#14201A; --muted:#5C6B63;
+  --line:#E3DAC6; --fact:#1D7A4C; --vyvod:#B8860B; --gip:#7A7A7A;
+  --nav:290px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font-family:Montserrat,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased}
+
+/* ---------- НАВИГАЦИЯ ---------- */
+#nav{position:fixed;top:0;left:0;width:var(--nav);height:100vh;background:var(--pine);
+  color:var(--beige);overflow-y:auto;padding:28px 0 40px;z-index:40}
+#nav .brand{padding:0 26px 20px;border-bottom:1px solid rgba(254,247,229,.16);margin-bottom:16px}
+#nav .brand b{display:block;font-size:17px;font-weight:700;letter-spacing:.2px}
+#nav .brand span{display:block;font-size:12px;color:var(--gold-l);margin-top:6px;letter-spacing:.6px;text-transform:uppercase}
+#nav a{display:block;padding:9px 26px;color:rgba(254,247,229,.78);text-decoration:none;
+  font-size:13.5px;border-left:3px solid transparent;transition:.15s}
+#nav a:hover{color:#fff;background:rgba(255,255,255,.05)}
+#nav a.sub{padding-left:42px;font-size:12.5px;color:rgba(254,247,229,.55)}
+#nav a.active{color:#fff;border-left-color:var(--gold);background:rgba(200,150,70,.14);font-weight:600}
+#nav .num{display:inline-block;width:22px;color:var(--gold-l);font-weight:700}
+
+#burger{display:none;position:fixed;top:14px;left:14px;z-index:60;background:var(--pine);
+  color:var(--beige);border:0;border-radius:10px;width:44px;height:44px;font-size:20px;cursor:pointer}
+
+/* ---------- КОНТЕНТ ---------- */
+main{margin-left:var(--nav);padding:56px 60px 120px;max-width:1000px}
+header.doc{border-bottom:3px solid var(--pine);padding-bottom:26px;margin-bottom:14px}
+header.doc h1{font-size:38px;line-height:1.15;margin:0 0 12px;font-weight:700;letter-spacing:-.5px}
+header.doc .sub{font-size:16px;color:var(--muted);margin:0}
+header.doc .meta{margin-top:18px;font-size:13px;color:var(--muted)}
+
+.status{background:var(--beige);border-left:4px solid var(--gold);padding:16px 20px;
+  border-radius:0 10px 10px 0;margin:26px 0 40px;font-size:14.5px}
+.status b{color:var(--pine)}
+
+section{margin:0 0 64px;scroll-margin-top:24px}
+section>h2{font-size:26px;font-weight:700;color:var(--pine);margin:0 0 6px;
+  padding-top:34px;border-top:1px solid var(--line);letter-spacing:-.3px}
+section>h2 .n{color:var(--gold);margin-right:10px}
+section>.lead{color:var(--muted);font-size:15px;margin:0 0 26px}
+h3{font-size:18.5px;font-weight:600;color:var(--pine-2);margin:34px 0 12px}
+h4{font-size:15px;font-weight:600;margin:22px 0 8px}
+p{margin:0 0 14px}
+ul,ol{margin:0 0 16px;padding-left:22px}
+li{margin-bottom:7px}
+
+/* ---------- МАРКЕРЫ ДОСТОВЕРНОСТИ ---------- */
+.m{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.7px;
+  padding:2px 8px;border-radius:4px;vertical-align:1px;margin-left:6px;white-space:nowrap}
+.m-fact{background:rgba(29,122,76,.12);color:var(--fact);border:1px solid rgba(29,122,76,.3)}
+.m-vyvod{background:rgba(184,134,11,.12);color:var(--vyvod);border:1px solid rgba(184,134,11,.3)}
+.m-gip{background:rgba(122,122,122,.1);color:var(--gip);border:1px solid rgba(122,122,122,.28)}
+
+/* ---------- ЦИТАТА КЛИЕНТА ---------- */
+.quote{background:var(--beige);border-left:4px solid var(--pine);padding:20px 24px;
+  border-radius:0 10px 10px 0;margin:16px 0 22px;font-size:15.5px;font-style:italic;color:#2A3A31}
+.quote .who{display:block;font-style:normal;font-size:12px;font-weight:600;
+  text-transform:uppercase;letter-spacing:.8px;color:var(--gold);margin-bottom:10px}
+
+/* ---------- КАРТОЧКИ ---------- */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin:20px 0}
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:20px}
+.card h4{margin:0 0 10px;color:var(--pine);font-size:15.5px}
+.card .k{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px}
+.card .v{font-size:15px;font-weight:600;margin-bottom:10px}
+
+/* ---------- ТАБЛИЦЫ ---------- */
+.tw{overflow-x:auto;margin:20px 0}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:520px}
+th{background:var(--pine);color:var(--beige);text-align:left;padding:12px 14px;
+  font-weight:600;font-size:12.5px;text-transform:uppercase;letter-spacing:.5px}
+td{padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:nth-child(even) td{background:rgba(254,247,229,.45)}
+td strong{color:var(--pine)}
+
+/* ---------- ГЛУБИННЫЙ СТРАХ / ПРЕДУПРЕЖДЕНИЕ ---------- */
+.locked{background:#FFF8F0;border:1px solid #E8C9A0;border-left:4px solid #C8783C;
+  padding:16px 20px;border-radius:0 10px 10px 0;margin:18px 0;font-size:14.5px}
+.locked b{color:#A0552A}
+
+/* ---------- АКЦЕНТНЫЙ БЛОК (оффер, антидот) ---------- */
+.hl{background:var(--pine);color:var(--beige);padding:26px 28px;border-radius:14px;margin:24px 0}
+.hl .k{font-size:11.5px;text-transform:uppercase;letter-spacing:1.2px;color:var(--gold-l);margin-bottom:10px}
+.hl p{font-size:18px;line-height:1.5;margin:0;font-weight:500}
+.hl p+p{margin-top:14px}
+
+/* ---------- ПРОБЕЛЫ ---------- */
+.gap{background:#fff;border:1px dashed var(--line);border-radius:12px;padding:20px 24px;margin:18px 0}
+.gap h4{margin-top:0;color:var(--muted)}
+
+footer{margin-left:var(--nav);padding:30px 60px 60px;border-top:1px solid var(--line);
+  color:var(--muted);font-size:13px;max-width:1000px}
+
+/* ---------- АДАПТИВ ---------- */
+@media(max-width:900px){
+  #nav{transform:translateX(-100%);transition:.25s;width:270px}
+  #nav.open{transform:none;box-shadow:0 0 40px rgba(0,0,0,.35)}
+  #burger{display:block}
+  main,footer{margin-left:0;padding:74px 18px 80px}
+  header.doc h1{font-size:27px}
+  section>h2{font-size:22px}
+}
+
+/* ---------- ПЕЧАТЬ / PDF ---------- */
+@media print{
+  #nav,#burger{display:none}
+  main,footer{margin:0;padding:0;max-width:none}
+  section{page-break-inside:avoid;margin-bottom:34px}
+  .hl{background:#fff;color:var(--ink);border:2px solid var(--pine)}
+  .hl .k{color:var(--gold)}
+  body{font-size:11pt}
+}
+</style>
+</head>
+<body>
+
+<button id="burger" aria-label="Меню">☰</button>
+
+<nav id="nav">
+  <div class="brand"><b>{{ИМЯ}}</b><span>Стратегический фундамент</span></div>
+  <a href="#s0"><span class="num">·</span>Паспорт проекта</a>
+  <a href="#s1"><span class="num">1</span>Анализ ЦА</a>
+  <a href="#s2"><span class="num">2</span>Идеи контента и отстройка</a>
+  <a href="#s3"><span class="num">3</span>Карта продукта и смыслов</a>
+  <a href="#s4"><span class="num">4</span>Продукт, наполнение, оффер</a>
+  <a href="#s5"><span class="num">5</span>Путь клиента</a>
+  <a href="#s6"><span class="num">6</span>Стратегия к результату</a>
+  <a href="#s7"><span class="num">·</span>Пробелы и что проверить</a>
+</nav>
+
+<main>
+  <header class="doc">
+    <h1>{{ЗАГОЛОВОК}}</h1>
+    <p class="sub">{{ПОДЗАГОЛОВОК — для кого документ и как им пользоваться}}</p>
+    <p class="meta">{{ДАТА}} · собрано за одну сессию</p>
+  </header>
+
+  <div class="status">
+    <b>Статус данных.</b> {{Что подтверждено, что вывод, что гипотеза. Если продукт новый и
+    результатов учеников нет — написать это прямо.}}<br>
+    <b>Обозначения:</b>
+    <span class="m m-fact">ФАКТ</span> подтверждено ·
+    <span class="m m-vyvod">ВЫВОД</span> следует из фактов ·
+    <span class="m m-gip">ГИПОТЕЗА</span> требует проверки
+  </div>
+
+  <!-- ===== 0. ПАСПОРТ ===== -->
+  <section id="s0">
+    <h2><span class="n">·</span>Паспорт проекта</h2>
+    <p class="lead">Вводные одним экраном.</p>
+    <div class="tw"><table>
+      <tr><th>Параметр</th><th>Значение</th></tr>
+      <tr><td><strong>Продукт</strong></td><td>{{...}}</td></tr>
+      <tr><td><strong>Формат</strong></td><td>{{...}}</td></tr>
+      <tr><td><strong>Метод</strong></td><td>{{...}}</td></tr>
+      <tr><td><strong>Цель в числах</strong></td><td>{{...}}</td></tr>
+      <tr><td><strong>Канал продаж</strong></td><td>{{...}}</td></tr>
+    </table></div>
+  </section>
+
+  <!-- ===== 1. ЦА ===== -->
+  <section id="s1">
+    <h2><span class="n">1</span>Анализ целевой аудитории</h2>
+    <p class="lead">Сегменты, точка А их словами, три слоя страха, возражения.</p>
+
+    <h3>Сегмент 1 — {{НАЗВАНИЕ}}</h3>
+    <p><em>{{Кто это в одну строку}}</em></p>
+    <div class="quote"><span class="who">Точка А — его словами</span>
+      «{{Монолог от первого лица, 3–5 предложений}}»
+    </div>
+    <p><strong>Главная боль:</strong> «{{одной фразой}}» <span class="m m-vyvod">ВЫВОД</span></p>
+    <p class="meta">Осознанность {{...}} · Техбарьер {{...}} · Решает {{...}} · Чек {{...}}</p>
+
+    <h3>Сравнительная матрица</h3>
+    <div class="tw"><table>
+      <tr><th>Параметр</th><th>Сегмент 1</th><th>Сегмент 2</th><th>Сегмент 3</th></tr>
+      <tr><td><strong>Главный страх</strong></td><td>{{}}</td><td>{{}}</td><td>{{}}</td></tr>
+      <tr><td><strong>Чек</strong></td><td>{{}}</td><td>{{}}</td><td>{{}}</td></tr>
+      <tr><td><strong>Что закрывает сделку</strong></td><td>{{}}</td><td>{{}}</td><td>{{}}</td></tr>
+      <tr><td><strong>Приоритет</strong></td><td>{{}}</td><td>{{}}</td><td>{{}}</td></tr>
+    </table></div>
+
+    <h3>Три слоя страха</h3>
+    <div class="tw"><table>
+      <tr><th>Уровень</th><th>Сегмент 1</th><th>Сегмент 2</th><th>Сегмент 3</th></tr>
+      <tr><td><strong>Поверхностный</strong></td><td>«{{}}»</td><td>«{{}}»</td><td>«{{}}»</td></tr>
+      <tr><td><strong>Средний</strong></td><td>«{{}}»</td><td>«{{}}»</td><td>«{{}}»</td></tr>
+      <tr><td><strong>Глубинный 🔒</strong></td><td>«{{}}»</td><td>«{{}}»</td><td>«{{}}»</td></tr>
+    </table></div>
+
+    <div class="hl">
+      <div class="k">Единый корневой страх</div>
+      <p>«{{одна фраза}}»</p>
+      <div class="k" style="margin-top:18px">Единый антидот</div>
+      <p>«{{одна фраза, которая его снимает}}»</p>
+    </div>
+
+    <div class="locked"><b>🔒 Правило использования.</b> Глубинные страхи — только в прогревах
+      на тёплую аудиторию. В холодном трафике читаются как манипуляция и роняют доверие.</div>
+  </section>
+
+  <!-- ===== 2. ОТСТРОЙКА ===== -->
+  <section id="s2">
+    <h2><span class="n">2</span>Идеи контента и отстройка</h2>
+    <p class="lead">Чем ты отличаешься и о чём говорить, чтобы это было видно.</p>
+
+    <h3>Конкурентное поле</h3>
+    <div class="tw"><table>
+      <tr><th>Конкурент</th><th>Позиция</th><th>Слабое место</th><th>Чем бьём</th></tr>
+      <tr><td><strong>{{}}</strong></td><td>{{}}</td><td>{{}}</td><td>{{}}</td></tr>
+    </table></div>
+
+    <h3>Свободные зоны рынка</h3>
+    <ol><li><strong>{{Зона}}</strong> — {{почему свободна}} <span class="m m-vyvod">ВЫВОД</span></li></ol>
+
+    <h3>Контентные территории</h3>
+    <div class="cards">
+      <div class="card"><h4>{{Территория}}</h4>
+        <div class="k">Зачем</div><div class="v">{{}}</div>
+        <div class="k">Форматы</div><div class="v">{{}}</div></div>
+    </div>
+
+    <h3>Чего не делаем</h3>
+    <ul><li>{{Запрет + почему}}</li></ul>
+  </section>
+
+  <!-- ===== 3. СМЫСЛЫ ===== -->
+  <section id="s3">
+    <h2><span class="n">3</span>Карта продукта и смыслов</h2>
+    <p class="lead">Что человек на самом деле покупает.</p>
+    <h3>Центральная идея</h3>
+    <p><strong>Главная проблема.</strong> {{}} <span class="m m-fact">ФАКТ</span></p>
+    <p><strong>Первопричина.</strong> {{не то, что кажется}} <span class="m m-vyvod">ВЫВОД</span></p>
+    <p><strong>Типичный неправильный подход.</strong> {{что люди делают и почему не работает}}</p>
+    <div class="hl"><div class="k">Центральный смысл продукта</div><p>«{{одна фраза}}»</p></div>
+    <h3>Пять уровней ценности</h3>
+    <div class="cards">
+      <div class="card"><h4>Функциональная</h4><p>{{что получает руками}}</p></div>
+      <div class="card"><h4>Эмоциональная</h4><p>{{что уходит из головы}}</p></div>
+      <div class="card"><h4>Идентификационная</h4><p>{{кем себя начинает считать}}</p></div>
+      <div class="card"><h4>Социальная</h4><p>{{что может показать другим}}</p></div>
+      <div class="card"><h4>Стратегическая</h4><p>{{что даёт на годы вперёд}}</p></div>
+    </div>
+  </section>
+
+  <!-- ===== 4. ОФФЕР ===== -->
+  <section id="s4">
+    <h2><span class="n">4</span>Продукт, наполнение и оффер</h2>
+    <p class="lead">Уравнение ценности, стек, гарантия, антигарантия.</p>
+    <div class="hl"><div class="k">Оффер — главная версия</div><p>{{до 140 символов}}</p></div>
+    <h3>Развёрнутая версия</h3><p>{{}}</p>
+    <h3>Оффер-стек</h3>
+    <div class="tw"><table>
+      <tr><th>Элемент</th><th>Какую боль закрывает</th><th>Какое возражение снимает</th></tr>
+      <tr><td><strong>{{}}</strong></td><td>{{}}</td><td>{{}}</td></tr>
+    </table></div>
+    <h3>Продуктовая лестница</h3>
+    <div class="tw"><table>
+      <tr><th>Ступень</th><th>Что это</th><th>Цена</th><th>Для кого</th></tr>
+      <tr><td><strong>Бесплатный вход</strong></td><td>{{}}</td><td>0</td><td>{{}}</td></tr>
+    </table></div>
+    <h3>Гарантия</h3><p>{{}}</p>
+    <div class="locked"><b>Антигарантия.</b> «{{Чего продукт честно НЕ даёт}}»</div>
+  </section>
+
+  <!-- ===== 5. ПУТЬ КЛИЕНТА ===== -->
+  <section id="s5">
+    <h2><span class="n">5</span>Путь клиента от холодного до горячего</h2>
+    <p class="lead">Шесть ступеней осознанности: где человек и что его двигает дальше.</p>
+    <div class="tw"><table>
+      <tr><th>Ступень</th><th>Состояние</th><th>%</th><th>Что говорим</th><th>Формат</th><th>Действие</th></tr>
+      <tr><td><strong>0 · Нет проблемы</strong></td><td>{{}}</td><td>{{}}</td><td>«{{}}»</td><td>{{}}</td><td>{{}}</td></tr>
+      <tr><td><strong>1 · Есть проблема</strong></td><td>{{}}</td><td>{{}}</td><td>«{{}}»</td><td>{{}}</td><td>{{}}</td></tr>
+      <tr><td><strong>2 · Ищет решения</strong></td><td>{{}}</td><td>{{}}</td><td>«{{}}»</td><td>{{}}</td><td>{{}}</td></tr>
+      <tr><td><strong>3 · Сравнивает решения</strong></td><td>{{}}</td><td>{{}}</td><td>«{{}}»</td><td>{{}}</td><td>{{}}</td></tr>
+      <tr><td><strong>4 · Сравнивает тебя</strong></td><td>{{}}</td><td>{{}}</td><td>«{{}}»</td><td>{{}}</td><td>{{}}</td></tr>
+      <tr><td><strong>5 · Готов купить</strong></td><td>{{}}</td><td>{{}}</td><td>«{{}}»</td><td>{{}}</td><td>{{}}</td></tr>
+    </table></div>
+    <h3>Где рвётся сейчас</h3>
+    <p>{{Самое слабое звено и что с ним делать первым}} <span class="m m-vyvod">ВЫВОД</span></p>
+    <h3>Возражения и закрытия</h3>
+    <div class="tw"><table>
+      <tr><th>Возражение</th><th>Что за ним стоит</th><th>Закрытие</th></tr>
+      <tr><td>«{{}}»</td><td>{{}}</td><td>{{}}</td></tr>
+    </table></div>
+  </section>
+
+  <!-- ===== 6. СТРАТЕГИЯ ===== -->
+  <section id="s6">
+    <h2><span class="n">6</span>Стратегия с нуля к результату</h2>
+    <p class="lead">Что делать по неделям, чтобы прийти к цели из паспорта.</p>
+    <div class="hl"><div class="k">Цель</div><p>{{число + дата}}</p>
+      <div class="k" style="margin-top:18px">Как она раскладывается</div>
+      <p>{{декомпозиция: сколько продаж по какой цене}}</p></div>
+    <div class="tw"><table>
+      <tr><th>Период</th><th>Фокус</th><th>Что делаем</th><th>Результат на выходе</th></tr>
+      <tr><td><strong>Неделя 1</strong></td><td>{{}}</td><td>{{}}</td><td>{{}}</td></tr>
+    </table></div>
+    <h3>Узкое место</h3>
+    <p>{{Что реально ограничивает рост и почему это не то, что кажется}} <span class="m m-vyvod">ВЫВОД</span></p>
+    <h3>Что НЕ делаем ближайший период</h3>
+    <ul><li>{{Отказ + почему он экономит ресурс}}</li></ul>
+  </section>
+
+  <!-- ===== 7. ПРОБЕЛЫ ===== -->
+  <section id="s7">
+    <h2><span class="n">·</span>Пробелы и что проверить</h2>
+    <p class="lead">Честный список того, что в документе держится на догадках.</p>
+    <div class="gap"><h4>Данных не хватает</h4><ul><li>{{}}</li></ul></div>
+    <div class="gap"><h4>Проверить на практике</h4><ol><li>{{Вопрос, ответ на который изменит стратегию}}</li></ol></div>
+  </section>
+</main>
+
+<footer>{{ИМЯ}} · Стратегический фундамент · {{ДАТА}}</footer>
+
+<script>
+const nav=document.getElementById('nav'),burger=document.getElementById('burger');
+burger.onclick=()=>nav.classList.toggle('open');
+nav.querySelectorAll('a').forEach(a=>a.onclick=()=>nav.classList.remove('open'));
+const links=[...nav.querySelectorAll('a')];
+const secs=links.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
+const setActive=i=>{i=Math.max(0,Math.min(i,links.length-1));
+  links.forEach(l=>l.classList.remove('active'));links[i]&&links[i].classList.add('active');};
+const spy=()=>{
+  // низ страницы: последний раздел не может дойти до верха, подсвечиваем его явно
+  if(innerHeight+scrollY>=document.documentElement.scrollHeight-6)return setActive(secs.length-1);
+  let i=secs.findIndex(s=>s.getBoundingClientRect().top>120);
+  setActive((i===-1?secs.length:i)-1);
+};
+// Опрос через requestAnimationFrame: работает и там, где события scroll не приходят.
+// Пересчёт только при реальном изменении позиции, в фоновой вкладке rAF засыпает сам.
+let lastY=-1,lastH=-1;
+const tick=()=>{const h=document.documentElement.scrollHeight;
+  if(scrollY!==lastY||h!==lastH){lastY=scrollY;lastH=h;spy();}
+  requestAnimationFrame(tick);};
+requestAnimationFrame(tick);
+addEventListener('scroll',spy,{passive:true});
+addEventListener('resize',spy,{passive:true});
+spy();
+</script>
+</body>
+</html>
