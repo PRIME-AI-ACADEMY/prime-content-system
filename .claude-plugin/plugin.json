@@ -1,7 +1,7 @@
 {
   "name": "prime-content-system",
-  "version": "0.10.0",
-  "description": "PRIME AI — кастомизируемая контент-система. foundation — оркестратор фундамента: одно интервью → шесть блоков (ЦА, отстройка, смыслы, оффер, путь клиента, стратегия) одним HTML-документом с навигацией. Точечные конструкторы (business-dna, audience, hunt-ladder, offer, tone-of-voice, design-system) дорабатывают отдельный блок; viral-hooks — банк из 300 хуков в 10 категориях под русскоязычный рынок; content-plan — промпт на каждый слайд + маршрут производства; carousel — 3 маршрута: Higgsfield nano_banana_pro с reference sheet / код Python+Pillow без браузера / Canva; setup-check; autopost — Metricool/Postiz/Meta; content-routine — автопилот. Хранение — Google Drive / Таблицы.",
+  "version": "0.11.0",
+  "description": "PRIME AI — кастомизируемая контент-система, 19 скиллов. foundation — первый шаг: одно интервью → шесть блоков (ЦА, отстройка, смыслы, оффер, путь клиента, стратегия) одним HTML-паспортом + профили в profile/. Точечные конструкторы (business-dna, audience, hunt-ladder, offer, tone-of-voice, design-system) дорабатывают отдельный блок; viral-hooks — банк из 300 хуков в 10 категориях под русскоязычный рынок; content-plan — промпт на каждый слайд + тип карусели T1–T4 и маршрут H/C/K; carousel — H: Higgsfield nano_banana_pro с референсом лица / C: Python+Pillow без браузера / K: Canva; autopost — Postiz по умолчанию (Instagram + Threads), альтернативы Metricool / Meta Graph API / ручной; content-routine — автопилот; setup-check — диагностика. Профили — папка profile/ в проекте, зеркало в Google Drive; контент-план — Google-таблица.",
   "author": {
     "name": "Angelina Khudiakova"
   },
@@ -19,7 +19,6 @@
     "tone-of-voice",
     "design-system",
     "autopost",
-    "metricool",
     "postiz",
     "instagram",
     "routine",
@@ -28,6 +27,8 @@
     "foundation",
     "strategy",
     "positioning",
-    "audience"
+    "audience",
+    "threads",
+    "profile"
   ]
 }

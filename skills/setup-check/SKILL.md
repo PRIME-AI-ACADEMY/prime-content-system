@@ -1,36 +1,44 @@
 ---
 name: setup-check
-description: "Проверяет установку контент-завода и даёт отчёт с галочками: Chrome, ffmpeg, Node, плагин и его версия, коннекторы (Higgsfield / Composio Google Sheets+Drive / Postiz), профили фундамента, папки и данные. Чинит найденное по подтверждению. Триггеры: проверь установку, setup-check, всё ли готово, диагностика, что не так, проверка системы, готова ли система."
+description: "Проверяет установку контент-завода и даёт отчёт с галочками: версия приложения Claude, плагин и число скиллов (19), Python + Pillow, ffmpeg, Node (только для HyperFrames), коннекторы Higgsfield / Composio (Google Sheets + Drive) / Postiz, папка profile/, таблица контент-плана. По каждому ❌ — одна строка, что сделать. Триггеры: проверь установку, setup-check, всё ли готово, диагностика, что не так, проверка системы, готова ли система."
 ---
 
 # Setup Check — диагностика установки
 
-Цель: за один прогон сказать человеку, что у него готово и что починить. Ничего не ломай: только читай/проверяй; чини по подтверждению (безвредное — `/plugin marketplace update` — можно сразу).
+Цель: за один прогон сказать человеку, что готово и что починить. Ничего не ломай: только читай и проверяй. Чини по подтверждению; безвредное (`/plugin marketplace update prime-ai`) можно предложить сразу.
 
-Пройди по пунктам, по каждому — ✅ или ❌ + как починить:
+Проходи по пунктам подряд, ошибки не останавливают прогон. Windows: вместо `python3` пиши `python`.
 
-## 1. Инструменты (Bash)
-- `ffmpeg -version` — монтаж. ❌ → Mac `brew install ffmpeg` / Windows `winget install ffmpeg`.
-- `node -v` — для hyperframes. ❌ → `brew install node` / `winget install OpenJS.NodeJS.LTS`.
-- Google Chrome по пути (рендер каруселей). ❌ → google.com/chrome.
+## 1. Приложение Claude
+- Версия ≥ 2.1.193 (иначе команды `/plugin` не работают). Посмотри через `/status` в строке Claude Code или меню приложения → About. ❌ → обнови приложение (Check for updates) и полностью перезапусти.
 
 ## 2. Плагин
-- Спроси у себя: какие скиллы prime-content-system доступны (должно быть ≥ 16).
-- Версия актуальная? ❌/старая → `/plugin marketplace update prime-ai`, затем Customize → Plugins → Update.
+- Посчитай доступные скиллы `prime-content-system:*` — должно быть **19**: foundation, business-dna, offer-builder, audience-builder, hunt-ladder, tone-of-voice-builder, design-system-builder, content-plan, content-pipeline, reels, carousel, short-post, long-post, stories, article, viral-hooks, autopost, content-routine, setup-check. ❌ (меньше или нет) → `/plugin marketplace add PRIME-AI-ACADEMY/prime-content-system` → `/plugin install prime-content-system@prime-ai` → полный перезапуск приложения.
+- Версия плагина 0.11.0 или новее? Старая → `/plugin marketplace update prime-ai`, затем перезапуск.
 
-## 3. Коннекторы
-- **Higgsfield:** вызови `list_voices` или `balance`. ❌ → Connectors → подключить Higgsfield.
-- **Composio (Google Sheets + Drive):** пробно прочитай любую ячейку / список Drive. ❌ → mcp.composio.dev, подключить Sheets+Drive.
-- **Postiz:** `integrationList`. ❌ → postiz.com → подключить Instagram + MCP.
+## 3. Инструменты (Bash)
+- `python3 --version` — маршрут C каруселей. ❌ → Mac: `brew install python` (или python.org); Windows: `winget install Python.Python.3.12`, при установке галочка «Add to PATH».
+- `python3 -c "import PIL; print(PIL.__version__)"` — Pillow, рисует карусели без браузера. ❌ → `python3 -m pip install --user pillow`. Ответ `externally-managed-environment` → `python3 -m venv ~/.reels-venv && ~/.reels-venv/bin/pip install pillow`, дальше скрипты запускай через `~/.reels-venv/bin/python` (Windows: `%USERPROFILE%\.reels-venv\Scripts\python`).
+- `ffmpeg -version` — монтаж видео. ❌ → Mac `brew install ffmpeg` / Windows `winget install Gyan.FFmpeg`, затем полностью закрыть и открыть приложение Claude, чтобы обновился PATH.
+- `node -v` — нужен только для HyperFrames (анимации кодом), **опционально**. Нет — это не ошибка, пометь «⚪ не нужен, пока не ставишь HyperFrames».
+- Chrome **не нужен**: маршрут C = Python + Pillow, без браузера. Проверяй только если человек сам просит HTML→PNG/PDF.
 
-## 4. Фундамент
-- Есть ли профили: business-dna, audience, hunt-ladder, offer, tone-of-voice, design-system, photo-catalog. ❌ → какой конструктор запустить.
+## 4. Коннекторы (вызови безвредный инструмент-список)
+- **Higgsfield:** `balance` или `list_voices`. ❌ → Settings → Connectors → Higgsfield → Connect.
+- **Composio (Google Sheets + Drive):** `COMPOSIO_MANAGE_CONNECTIONS` (список подключений) или пробное чтение списка файлов Drive. ❌ → mcp.composio.dev → включить Google Sheets + Google Drive → Add custom connector в Claude → авторизовать Google.
+- **Postiz:** `integrationList` — должны быть каналы Instagram и Threads. ❌ (коннектора нет) → Add custom connector, URL `https://mcp.postiz.com/mcp`. ❌ (каналов нет) → app.postiz.com → Add channel → Instagram, Threads.
 
-## 5. Данные
-- Папка `photos` с фото; банк фонов в Drive; таблица контент-плана доступна. ❌ → что добавить.
+## 5. Профили
+Профили лежат в папке `profile/` в корне проекта: `profile/business-dna.md`, `profile/audience.md`, `profile/hunt-ladder.md`, `profile/offer.md`, `profile/tone-of-voice.md`, `profile/design-system.md`, плюс паспорт `profile/foundation.html`. Google Drive — необязательное зеркало: коннектор подключён → продублируй туда; нет — работай с `profile/` и не останавливайся.
+- Папки `profile/` нет или она пустая → «запусти `foundation` (PROMPTS.md, промт №1)».
+- Нет только одного файла → назови конструктор: `business-dna`, `audience-builder`, `hunt-ladder`, `offer-builder`, `tone-of-voice-builder`, `design-system-builder`.
 
-## 6. Рутины (если настроены)
-- Перечисли активные рутины и их время; предупреди, если какой-то этап (план / генерация / автопост / публикация) не покрыт.
+## 6. Данные
+- Папка `photos/` с фото и `photo-catalog.md`. ❌ → «положи 30+ фото в photos/ и попроси составить каталог».
+- Таблица контент-плана открывается (Composio → прочитай первую строку листа «Контент-план»). ❌ → «запусти `content-plan`, таблица создастся».
 
-## 7. Итог
-Таблица ✅/❌ по всем пунктам + **приоритетный список «что сделать сейчас»**. Если всё ✅ — скажи «система готова, можно запускать контент-план».
+## 7. Рутины (если настроены)
+Перечисли активные рутины и их время; предупреди, если какой-то этап (план / генерация / автопост / публикация) не покрыт. Не настроены → «⚪ рутины пока не нужны».
+
+## 8. Итог
+Таблица со столбцами: Пункт · ✅/❌/⚪ · Что сделать (одна строка на каждый ❌). Порядок пунктов — как выше. Внизу — приоритетный список «сделай сейчас» из ❌. Если все критичные пункты ✅ — скажи: «система готова, следующий шаг — `foundation` или `content-plan`».

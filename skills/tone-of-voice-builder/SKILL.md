@@ -28,7 +28,10 @@ description: "Скилл-конструктор Tone of Voice. Делает об
 Собери профиль по шаблону. Сделай **2–3 переписа «до/после»** (нейтральная фраза → её голосом) и покажи: **«Узнаёшь себя?»** Если нет — спроси, что не так, и пересобери. Не двигайся дальше, пока она не скажет «да, это я».
 
 ## Шаг 6 — Сохрани
-В Google Drive («Tone of Voice»); иначе `profile/tone-of-voice.md`. Этот файл ЧИТАЮТ все текстовые скиллы ПЕРЕД любой генерацией.
+В `profile/tone-of-voice.md`. Этот файл ЧИТАЮТ все текстовые скиллы ПЕРЕД любой генерацией. Эталоны живого пера — `references/human-voice-gallery.md`.
+
+## Где лежат профили
+Профили лежат в папке `profile/` в корне проекта: `profile/business-dna.md`, `profile/audience.md`, `profile/hunt-ladder.md`, `profile/offer.md`, `profile/tone-of-voice.md`, `profile/design-system.md`, плюс паспорт `profile/foundation.html`. Google Drive — необязательное зеркало: коннектор подключён → продублируй туда; нет — работай с `profile/` и не останавливайся.
 
 ## Шаблон
 ```markdown

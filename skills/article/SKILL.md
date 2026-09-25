@@ -8,7 +8,10 @@ description: "Создаёт статьи и лонгриды (800–3000+ сл�
 Назначение: глубокий материал, который читают, сохраняют и шарят.
 
 ## ОБЯЗАТЕЛЬНО перед генерацией
-Прочитай **`../content-pipeline/references/copy-engine.md`** (анти-ИИ голос, хуки, каркасы, CTA). Прочитай `audience`, `offer`, `tone-of-voice`.
+Прочитай **`${CLAUDE_PLUGIN_ROOT}/skills/content-pipeline/references/copy-engine.md`** (анти-ИИ голос, хуки, каркасы, CTA). Прочитай `profile/audience.md`, `profile/offer.md`, `profile/tone-of-voice.md`.
+
+## Где лежат профили
+Профили лежат в папке `profile/` в корне проекта: `profile/business-dna.md`, `profile/audience.md`, `profile/hunt-ladder.md`, `profile/offer.md`, `profile/tone-of-voice.md`, `profile/design-system.md`, плюс паспорт `profile/foundation.html`. Google Drive — необязательное зеркало: коннектор подключён → продублируй туда; нет — работай с `profile/` и не останавливайся.
 
 ## 4 жанра
 1. **Практический гайд** — пошаговое решение проблемы.

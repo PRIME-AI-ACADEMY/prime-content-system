@@ -8,7 +8,10 @@ description: "Создаёт короткие посты (до ~1000 знако�
 Назначение: короткий пост, который цепляет с первой строки и ведёт к действию.
 
 ## ОБЯЗАТЕЛЬНО перед генерацией
-Прочитай **`../content-pipeline/references/copy-engine.md`** — это единый движок текста (анти-ИИ голос, банк хуков, вирусные паттерны, CTA-движок). Он главнее этого файла. Также прочитай профили `audience`, `offer`, `tone-of-voice`.
+Прочитай **`${CLAUDE_PLUGIN_ROOT}/skills/content-pipeline/references/copy-engine.md`** — это единый движок текста (анти-ИИ голос, банк хуков, вирусные паттерны, CTA-движок). Он главнее этого файла. Также прочитай `profile/audience.md`, `profile/offer.md`, `profile/tone-of-voice.md`.
+
+## Где лежат профили
+Профили лежат в папке `profile/` в корне проекта: `profile/business-dna.md`, `profile/audience.md`, `profile/hunt-ladder.md`, `profile/offer.md`, `profile/tone-of-voice.md`, `profile/design-system.md`, плюс паспорт `profile/foundation.html`. Google Drive — необязательное зеркало: коннектор подключён → продублируй туда; нет — работай с `profile/` и не останавливайся.
 
 ## Формат
 - До ~1000 знаков. Предложения короткие (12–15 слов). Воздух между абзацами.

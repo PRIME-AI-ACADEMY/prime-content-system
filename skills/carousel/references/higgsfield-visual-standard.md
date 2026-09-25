@@ -15,7 +15,7 @@
 ## 2. Сцены — РАЗНЫЕ и интересные (главное правило)
 - **Запрещено** повторять одну композицию (человек на тёмном фоне) из слайда в слайд. Каждый слайд = **своя сцена**: меняй окружение, масштаб (эпичный общий / кокпит / крупный / сверху / средний), ракурс, действие, реквизит.
 - Под каждое сообщение — **конкретная метафора**, и весь набор слайдов складывается в **визуальную историю-арку**.
-- **Один фирменный образ одежды** на всю карусель (для консистентности персонажа). Формула в каждом промпте: `same woman as in the reference photos (keep her EXACT face and identity), <signature outfit>`.
+- **Один фирменный образ одежды** на всю карусель (для консистентности персонажа). Формула в каждом промпте: `same person as in the reference photos (keep their EXACT face and identity), <signature outfit>`.
 - **Ловушки буквального перевода — закрывай явно.** Модель понимает русские слова буквально:
   - «карусели» → `Instagram-style social-media carousel post slides (NOT amusement-park carousel rides / merry-go-rounds)`
   - «сторис/рилс» → `vertical Instagram story / reel UI on a phone`
@@ -29,8 +29,8 @@
 - **Кавычки:** по умолчанию `No quotation marks` (ёлочки » « модель часто разворачивает наружу — »X«). Если нужны — проверяй направление на QA.
 - Текст — в чистой/тёмной зоне (слева или снизу-слева) для читаемости. Не на лице, не в правых углах IG.
 
-## 4. Бренд-палитра (дефолт; перекрывается `design-system` пользователя)
-- Pine green `#00311e` + warm beige `#fef7e5`. В промпт: `Deep pine green / warm beige palette, cinematic, photorealistic, premium, not cartoon.`
+## 4. Бренд-палитра (дефолт; перекрывается `profile/design-system.md` пользователя)
+- Pine green `#00311e` + cream `#fef7e5` + gold `#e8b96a`. В промпт: `Deep pine green / warm beige palette, cinematic, photorealistic, premium, not cartoon.`
 - Свет — кинематографичный (god-rays / тёплый боковой / контровой), лёгкая дымка.
 
 ## 5. Анти-NSFW (чтобы не ловить ложный флаг и не жечь кредиты)
@@ -58,5 +58,5 @@
 
 ### Шаблон готового промпта (картинка-слайд)
 ```
-<Scene type> cinematic shot, same woman as in the reference photos (keep her EXACT face and identity), <signature outfit>, <конкретное действие в конкретной сцене с реквизитом>. <Окружение, свет, масштаб, ракурс>. Deep pine green / warm beige palette, photorealistic, premium, not cartoon. Clean legible Cyrillic, every word spelled correctly, bold beige. Headline reads exactly: <ЗАГОЛОВОК>. Second line reads exactly: <строка 1>. Third line reads exactly: <строка 2>. Text on the left in a clean zone. 4:5 vertical.
+<Scene type> cinematic shot, same person as in the reference photos (keep their EXACT face and identity), <signature outfit>, <конкретное действие в конкретной сцене с реквизитом>. <Окружение, свет, масштаб, ракурс>. Deep pine green / warm beige palette, photorealistic, premium, not cartoon. Clean legible Cyrillic, every word spelled correctly, bold beige. Headline reads exactly: <ЗАГОЛОВОК>. Second line reads exactly: <строка 1>. Third line reads exactly: <строка 2>. Text on the left in a clean zone. 4:5 vertical.
 ```

@@ -22,7 +22,10 @@ description: "Скилл-конструктор бизнес-контекста 
 KPI недели/месяца: ...
 Ограничения/приоритеты: ...
 ```
-3. **Сохранить** как «Business DNA» в Google Drive; иначе `profile/business-dna.md`. Сообщи, что content-plan будет строить план под эти цели.
+3. **Сохранить** в `profile/business-dna.md`. Сообщи, что content-plan будет строить план под эти цели.
+
+## Где лежат профили
+Профили лежат в папке `profile/` в корне проекта: `profile/business-dna.md`, `profile/audience.md`, `profile/hunt-ladder.md`, `profile/offer.md`, `profile/tone-of-voice.md`, `profile/design-system.md`, плюс паспорт `profile/foundation.html`. Google Drive — необязательное зеркало: коннектор подключён → продублируй туда; нет — работай с `profile/` и не останавливайся.
 
 ## Контроль качества
 Цель выражена числом и сроком? Видна вся продуктовая лестница с ценами? Понятен ближайший фокус? Если нет — уточни.

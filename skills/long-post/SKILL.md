@@ -8,7 +8,10 @@ description: "Создаёт развёрнутые посты (2000–3000 зн
 Назначение: пост на 2000–3000 знаков, который читают до конца и сохраняют.
 
 ## ОБЯЗАТЕЛЬНО перед генерацией
-Прочитай **`../content-pipeline/references/copy-engine.md`** (анти-ИИ голос, хуки, паттерны, каркасы, CTA). Прочитай `audience`, `offer`, `tone-of-voice`, `hunt-ladder` (под ступень осознанности).
+Прочитай **`${CLAUDE_PLUGIN_ROOT}/skills/content-pipeline/references/copy-engine.md`** (анти-ИИ голос, хуки, паттерны, каркасы, CTA). Прочитай `profile/audience.md`, `profile/offer.md`, `profile/tone-of-voice.md`, `profile/hunt-ladder.md` (под ступень осознанности).
+
+## Где лежат профили
+Профили лежат в папке `profile/` в корне проекта: `profile/business-dna.md`, `profile/audience.md`, `profile/hunt-ladder.md`, `profile/offer.md`, `profile/tone-of-voice.md`, `profile/design-system.md`, плюс паспорт `profile/foundation.html`. Google Drive — необязательное зеркало: коннектор подключён → продублируй туда; нет — работай с `profile/` и не останавливайся.
 
 ## 5 структур (выбери под тему)
 1. **Трансформация:** было → переломный момент → стало → урок. Лично, с деталями.
