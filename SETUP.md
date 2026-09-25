@@ -135,7 +135,25 @@ winget install Gyan.FFmpeg
 
 ## Шаг 5. Плагин (5 мин)
 
-В строке ввода Claude Code набери (именно со слэша) и отправь:
+**Где вводить команды плагина (важно).** Не в чат. В приложении Claude нажми значок терминала **`>_`** (справа вверху) → откроется панель. В ней набери и нажми Enter:
+```
+claude
+```
+и уже внутри — по очереди:
+```
+/plugin marketplace add PRIME-AI-ACADEMY/prime-content-system
+/plugin install prime-content-system@prime-ai
+```
+Затем полностью закрой и открой приложение.
+
+**Как обновлять плагин потом** (когда выйдет новая версия): тот же терминал `>_` → `claude` →
+```
+/plugin marketplace update prime-ai
+```
+→ закрыть и открыть приложение. Проверка: «какая версия prime-content-system?»
+
+
+В приложении: значок терминала `>_` → набери `claude` → затем по очереди:
 ```
 /plugin marketplace add PRIME-AI-ACADEMY/prime-content-system
 ```
