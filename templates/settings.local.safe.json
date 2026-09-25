@@ -1,0 +1,34 @@
+{
+  "permissions": {
+    "defaultMode": "acceptEdits",
+    "allow": [
+      "Read", "Write", "Edit", "Glob", "Grep", "WebSearch",
+      "Bash(python3:*)", "Bash(python:*)", "Bash(pip:*)", "Bash(pip3:*)",
+      "Bash(ffmpeg:*)", "Bash(ffprobe:*)", "Bash(curl:*)", "Bash(sips:*)",
+      "Bash(mkdir:*)", "Bash(cp:*)", "Bash(mv:*)", "Bash(ls:*)", "Bash(find:*)", "Bash(cat:*)",
+      "Bash(echo:*)", "Bash(wc:*)", "Bash(head:*)", "Bash(tail:*)", "Bash(grep:*)", "Bash(sort:*)",
+      "Bash(node:*)", "Bash(npx:*)", "Bash(npm:*)", "Bash(git:*)", "Bash(brew:*)", "Bash(winget:*)",
+      "Bash(xcode-select:*)", "Bash(whisper-cli:*)", "Bash(open:*)",
+      "Read(//Applications/Google Chrome.app/**)",
+      "Read(//opt/homebrew/**)",
+      "Read(//C:/Program Files/Google/Chrome/**)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:fonts.googleapis.com)",
+      "WebFetch(domain:fonts.gstatic.com)",
+      "WebFetch(domain:drive.google.com)",
+      "mcp__postiz",
+      "mcp__higgsfield",
+      "mcp__composio"
+    ],
+    "deny": [
+      "Bash(rm -rf:*)",
+      "Bash(sudo:*)",
+      "Bash(git push:*)",
+      "Bash(git push --force:*)",
+      "Read(//Users/*/.ssh/**)",
+      "Read(//Users/*/.aws/**)",
+      "Read(//Users/*/Library/Keychains/**)"
+    ]
+  }
+}

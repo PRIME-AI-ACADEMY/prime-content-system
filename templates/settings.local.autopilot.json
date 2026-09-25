@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "defaultMode": "bypassPermissions",
+    "deny": [
+      "Bash(rm -rf:*)",
+      "Bash(sudo:*)",
+      "Bash(git push:*)",
+      "Bash(git push --force:*)",
+      "Read(//Users/*/.ssh/**)",
+      "Read(//Users/*/.aws/**)",
+      "Read(//Users/*/Library/Keychains/**)"
+    ]
+  },
+  "skipDangerousModePermissionPrompt": true
+}
