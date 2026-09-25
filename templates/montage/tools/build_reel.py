@@ -222,7 +222,10 @@ def intersects(a, b):
 SIDE = 56
 MAXW = W - 2 * SIDE
 PLATE_H, PLATE_X0, PLATE_X1, PLATE_PAD = 106, 48, 672, 28
-PLATE_Y0_DEFAULT = 1044
+PLATE_Y0_DEFAULT = 1044     # плашка и ник ниже этого не опускаются (низ ~250 px — интерфейс Instagram)
+IG_TOP = 200                # верхние ~200 px перекрывает интерфейс Instagram — текст стартует не выше
+IG_TOP_MIN = 60             # абсолютный минимум старта, только с предупреждением
+DEFAULT_HEAD_TOP = 330      # предел верхнего блока, когда детекции нет
 
 def build_overlay(cfg, out_png, forbid=None):
     """Рисует оверлей. forbid — запретная зона (x0,y0,x1,y1) или None.
@@ -260,9 +263,9 @@ def build_overlay(cfg, out_png, forbid=None):
         py0 = PLATE_Y0_DEFAULT
         plate = (PLATE_X0, py0, PLATE_X1, py0 + PLATE_H)
         if intersects(plate, forbid):
-            down = forbid[3] + 16                                  # под лицом
+            down = forbid[3] + 16                                  # под лицом, но не ниже дефолта (зона IG)
             up = forbid[1] - 16 - PLATE_H                          # над лицом
-            if down + PLATE_H <= H - 60:
+            if down <= PLATE_Y0_DEFAULT:
                 py0 = down
             elif up >= 420:                                        # не залезать в верхний блок
                 py0 = up
@@ -271,39 +274,50 @@ def build_overlay(cfg, out_png, forbid=None):
                       file=sys.stderr)
             plate = (PLATE_X0, py0, PLATE_X1, py0 + PLATE_H)
 
-    # --- ПРАВИЛО 2: верхний блок ВЫШЕ запретной зоны
-    y_top = 78
-    top_limit = forbid[1] if forbid else None                     # нижняя граница разрешённого места
+    # --- ПРАВИЛО 2: верхний блок ВЫШЕ запретной зоны, но НЕ в зоне интерфейса Instagram.
+    # Приоритет: (1) старт y=IG_TOP, целиком над лицом; (2) уменьшить шрифт / убрать sub;
+    # (3) только потом поднимать старт выше IG_TOP (до IG_TOP_MIN) с предупреждением;
+    # (4) с детекцией — нижняя свободная зона над плашкой; иначе — код 4.
+    top_limit = forbid[1] if forbid else DEFAULT_HEAD_TOP          # нижняя граница разрешённого места
     if cfg.get("head_top") is not None:
-        top_limit = min(top_limit, cfg["head_top"]) if top_limit else cfg["head_top"]
-    placement, items = "top", None
-    if forbid is None and cfg.get("head_top") is None:
-        items = block_layout(1.0, True)                            # без детекции: старое поведение + warn
-        if y_top + block_h(items) > 330:
-            print(f"[warn] верхний текст заканчивается на y={y_top + block_h(items)}, ниже 330 — "
-                  "лицо не проверялось (нет детекции). Укороти строки или проверь кадр.", file=sys.stderr)
-    else:
+        top_limit = min(top_limit, cfg["head_top"])
+    SCALES = (1.0, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4)
+
+    def fit_top(y0):
         for with_sub in (True, False):
-            for sc in (1.0, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4):
+            for sc in SCALES:
                 cand = block_layout(sc, with_sub)
-                if not cand or y_top + block_h(cand) <= top_limit:
-                    items = cand; break
+                if not cand or y0 + block_h(cand) <= top_limit:
+                    return cand
+        return None
+
+    placement, items, y_top = "top", fit_top(IG_TOP), IG_TOP
+    if items is None:                                              # (3) выше IG_TOP — с предупреждением
+        for y0 in range(IG_TOP - 20, IG_TOP_MIN - 1, -20):
+            items = fit_top(y0)
+            if items is not None:
+                y_top = y0
+                print(f"[warn] текст в зоне интерфейса Instagram (старт y={y0} < {IG_TOP}) — "
+                      "над лицом мало места; укороти строки, если важно.", file=sys.stderr)
+                break
+    if items is None and forbid is not None:                       # (4) нижняя свободная зона над плашкой
+        bottom_limit = (plate[1] - 16) if plate else (PLATE_Y0_DEFAULT - 16)
+        free_y0 = forbid[3] + 16
+        for with_sub in (True, False):
+            for sc in SCALES:
+                cand = block_layout(sc, with_sub)
+                if free_y0 + block_h(cand) <= bottom_limit:
+                    items, placement, y_top = cand, "bottom", free_y0; break
             if items is not None:
                 break
-        if items is None and forbid is not None:                   # нижняя свободная зона над плашкой
-            bottom_limit = (plate[1] - 16) if plate else (H - 90 - 40)
-            free_y0 = forbid[3] + 16
-            for with_sub in (True, False):
-                for sc in (1.0, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4):
-                    cand = block_layout(sc, with_sub)
-                    if free_y0 + block_h(cand) <= bottom_limit:
-                        items, placement, y_top = cand, "bottom", free_y0; break
-                if items is not None:
-                    break
-        if items is None:
+    if items is None:
+        if forbid is not None:
             print("[FAIL] лицо занимает весь кадр — тексту негде встать. Возьми другой клип "
                   "или укороти текст (только l1 без kicker/sub).", file=sys.stderr)
             sys.exit(4)
+        items, y_top = block_layout(0.4, False), IG_TOP_MIN       # без детекции не падаем: минимум + warn
+        print(f"[warn] верхний текст не помещается выше head_top={top_limit} даже мелко — "
+              "лицо не проверялось (нет детекции). Укороти строки и проверь кадр.", file=sys.stderr)
     if placement == "bottom":
         print(f"[info] верхняя зона занята лицом (y≥{forbid[1]}) — переношу текст вниз, y={y_top}", file=sys.stderr)
     if cfg.get("sub") and not any(k == "sub" for k, _f, _c, _g in items):
