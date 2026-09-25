@@ -7,7 +7,9 @@
 JSON → out/<name>/slide-01..NN.png (1080×1350) + 00-contact.jpg + 00-check.jpg + report.md
 Типы: T1 текст-на-фоне · T2 фото-аватар · T3 скриншоты · T4 кейс-инфографика (см. spec.schema.md).
 
-Коды выхода: 0 ок · 2 битый JSON · 3 текст на лице · 4 контраст не вытянули · 5 нет шрифта/фото/скрина.
+Коды выхода: 0 ок · 2 битый JSON · 3 текст на лице · 4 контраст не вытянули · 5 нет шрифта/фото/скрина ·
+6 нет детектора лиц (OpenCV<5 + каскад) при фото-слайдах — проверка «текст не на лице» не выполнена.
+Бренд: profile/design-system.md; поле «card» (HEX) — цвет карточки под текстом T1, иначе фон +5% белого.
 """
 import argparse
 import os
@@ -150,7 +152,7 @@ class Ctx:
         self.fp = brand["font"]
         self.bg, self.tx, self.ac = brand["bg"], brand["text"], brand["accent"]
         self.muted = L.mix(self.tx, self.bg, 0.28)
-        self.card = L.mix(self.bg, (255, 255, 255), 0.05)
+        self.card = L.hex_to_rgb(brand["card"]) if isinstance(brand.get("card"), str) else L.mix(self.bg, (255, 255, 255), 0.05)
         self.handle = spec.get("handle") or brand.get("handle") or "@ник"
         self.total = len(spec["slides"])
 
@@ -182,16 +184,20 @@ def plaque(c, d, x, y, text):
     return box[3]
 
 
-def block_height(c, d, s, maxw, big_start=88, big_min=44, small_size=40):
+CARD_PAD = 40   # карточка под основным текстом T1 (design-system: обязательна)
+
+
+def block_height(c, d, s, maxw, big_start=88, big_min=44, small_size=40, card=False):
     """Считаем высоту текстового блока (big + small + cta), чтобы разместить его целиком."""
     ft, lines, hb = fit_text(d, s.get("big", ""), 800, maxw, 620, big_start, big_min, 1.08, c.fp) if s.get("big") else (None, [], 0)
     hs = 0
     fs, slines = None, []
     if s.get("small"):
-        fs, slines, hs = fit_text(d, s["small"], 500, maxw, 260, small_size, 28, 1.32, c.fp)
-        hs += 18
+        sw = maxw - 2 * CARD_PAD if card else maxw
+        fs, slines, hs = fit_text(d, s["small"], 500, sw, 260, small_size, 28, 1.32, c.fp)
+        hs += 18 + (2 * CARD_PAD if card else 0)
     hc = 44 + 52 + 26 if s.get("cta") else 0
-    return dict(ft=ft, lines=lines, hb=hb, fs=fs, slines=slines, hs=hs, hc=hc, total=hb + hs + hc)
+    return dict(ft=ft, lines=lines, hb=hb, fs=fs, slines=slines, hs=hs, hc=hc, total=hb + hs + hc, card=card)
 
 
 def draw_block(c, d, s, blk, x, y, maxw, align="left"):
@@ -199,7 +205,12 @@ def draw_block(c, d, s, blk, x, y, maxw, align="left"):
         y = draw_rich(d, x, y, blk["lines"], blk["ft"], c.tx, c.ac, 1.08, align, maxw)
     if blk["slines"]:
         y += 18
-        y = draw_rich(d, x, y, blk["slines"], blk["fs"], c.muted if blk["lines"] else c.tx, c.ac, 1.32, align, maxw)
+        if blk.get("card"):
+            h = len(blk["slines"]) * int(blk["fs"].size * 1.32)
+            d.rounded_rectangle((x, y + 10, x + maxw, y + h + 2 * CARD_PAD - 6), radius=28, fill=c.card)
+            y = draw_rich(d, x + CARD_PAD, y + CARD_PAD, blk["slines"], blk["fs"], c.tx, c.ac, 1.32, align, maxw - 2 * CARD_PAD) + CARD_PAD
+        else:
+            y = draw_rich(d, x, y, blk["slines"], blk["fs"], c.muted if blk["lines"] else c.tx, c.ac, 1.32, align, maxw)
     if s.get("cta"):
         y = plaque(c, d, x, y + 26, s["cta"])
     return y
@@ -258,6 +269,8 @@ def photo_slide(c, s, n):
         note(0, "[face] слайд {}: лицо было под текстом — кадрирую focus={}".format(n, focus))
 
     img = scrim(img, c.bg, side, 255 if fail else 250, 0.75 if fail else 0.66)
+    if side == "bottom":
+        img = scrim(img, c.bg, "top", 215, 0.24)  # читаемость счётчика и кикера сверху на светлом фото
     img, ratio = ensure_contrast(img, zone, c.tx, c.bg, n)
     d = ImageDraw.Draw(img)
     kicker(c, d, s.get("kicker"))
@@ -288,12 +301,12 @@ def text_slide(c, s, n):
     elif s.get("number"):
         num = str(s["number"])
         fn, nlines, nh = fit_text(d, num, 800, maxw, 260, 230, 90, 1.0, c.fp)
-        d.text((M - 6, 236), num, font=fn, fill=c.ac)
-        y0 = 236 + nh + 40
-        blk = block_height(c, d, s, maxw, big_start=76, big_min=40, small_size=40)
-        draw_block(c, d, s, blk, M, y0, maxw)
+        blk = block_height(c, d, s, maxw, big_start=76, big_min=40, small_size=40, card=True)
+        ny = max(236, (H - (nh + 40 + blk["total"])) // 2 - 20)   # блок по вертикали, не прижат к верху
+        d.text((M - 6, ny), num, font=fn, fill=c.ac)
+        draw_block(c, d, s, blk, M, ny + nh + 40, maxw)
     else:
-        blk = block_height(c, d, s, maxw, big_start=84, big_min=44, small_size=42)
+        blk = block_height(c, d, s, maxw, big_start=84, big_min=44, small_size=42, card=True)
         y0 = max(y + 40, (H - blk["total"]) // 2 - 30)
         draw_block(c, d, s, blk, M, y0, maxw)
     chrome(c, d, n)
@@ -437,6 +450,11 @@ def main():
         note(0, "[info] в JSON маршрут H (Higgsfield), собираю кодом как тест маршрута C")
     c = Ctx(spec, brand, out_dir, base_dirs)
     note(0, "[info] {} · {} · {} слайдов · шрифт {}".format(spec["type"], name, c.total, os.path.basename(brand["font"])))
+
+    if any(s.get("photo") for s in spec["slides"]) and L.cascade() is None:
+        note(6, "[FAIL] детектора лиц нет — проверка «текст не на лице» не выполнена. "
+                'Поставь: python3 -m pip install "opencv-python-headless<5" и положи '
+                "haarcascade_frontalface_default.xml в fonts/ проекта")
 
     images = []
     for s in spec["slides"]:

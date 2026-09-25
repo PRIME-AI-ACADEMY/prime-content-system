@@ -35,7 +35,8 @@ text.json (все поля опциональны):
   Детектор лиц: opencv-python-headless (<5 — с Haar-каскадом). Каскад ищется в cv2.data, потом в
   ~/.reels-fonts/, потом скачивается сам. Нет cv2 — печатает команду установки и работает без детекции.
 
-Коды выхода: 0 ок · 2 нет шрифта · 3 текст на лице после рендера · 4 лицо занимает весь кадр.
+Коды выхода: 0 ок · 2 нет шрифта · 3 текст на лице после рендера · 4 лицо занимает весь кадр ·
+             5 детектора лиц нет (нужен opencv-python-headless<5 + каскад) и --no-face-check не задан.
 """
 import argparse, json, os, shutil, subprocess, sys, tempfile, urllib.request
 from PIL import Image, ImageDraw, ImageFont
@@ -477,6 +478,11 @@ def main():
     else:
         check_after_render(a.src, a.out, zones, None, None, check_jpg)
         print("контрольный лист (без детекции — посмотри глазами):", check_jpg)
+        if det is not None and not det.ok:
+            # детектор хотели, а его нет: проверка «текст не на лице» не выполнена — не молчим
+            print("[FAIL] детектора лиц нет — поставь \"opencv-python-headless<5\" (+ каскад в ~/.reels-fonts/) "
+                  "или запусти с --no-face-check и посмотри check.jpg глазами. Код выхода 5.", file=sys.stderr)
+            sys.exit(5)
     print("готово:", a.out)
 
 if __name__ == "__main__":

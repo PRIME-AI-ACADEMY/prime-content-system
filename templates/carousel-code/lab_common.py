@@ -99,6 +99,10 @@ def parse_design_system(md_path):
             found["accent"] = h0
         elif "text" not in found and re.search(r"текст|text|cream|беж|слонов", low):
             found["text"] = h0
+        elif "card" not in found and re.search(r"карточк|card|плашк", low):
+            found["card"] = h0
+    if "card" in found:
+        brand["card"] = found.pop("card")
     order = [h for h in hexes_in_order if h not in found.values()]
     for key in ("bg", "text", "accent"):
         if key in found:
@@ -198,13 +202,16 @@ def cascade():
         import cv2
     except ImportError:
         print("[warn] OpenCV не установлен — лица не проверяю. Поставь: "
-              'python -m pip install "opencv-python-headless<5"')
+              'python -m pip install "opencv-python-headless<5" (в OpenCV 5 нет CascadeClassifier)')
         _CASCADE = False
         return None
     cands = []
     if hasattr(cv2, "data") and getattr(cv2.data, "haarcascades", ""):
         cands.append(os.path.join(cv2.data.haarcascades, HAAR_NAME))
     cands.append(os.path.join(LAB, "fonts", HAAR_NAME))
+    cands.append(os.path.join(os.path.dirname(LAB), "fonts", HAAR_NAME))  # fonts/ в корне проекта (tools/../fonts)
+    cands.append(os.path.join(os.getcwd(), "fonts", HAAR_NAME))            # fonts/ текущей папки
+    cands.append(os.path.join(os.getcwd(), HAAR_NAME))
     cands.append(os.path.join(os.path.expanduser("~"), ".reels-fonts", HAAR_NAME))
     path = next((p for p in cands if os.path.isfile(p)), None)
     if not path or not hasattr(cv2, "CascadeClassifier"):

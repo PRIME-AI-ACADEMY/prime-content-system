@@ -29,8 +29,8 @@
 - **Кавычки:** по умолчанию `No quotation marks` (ёлочки » « модель часто разворачивает наружу — »X«). Если нужны — проверяй направление на QA.
 - Текст — в чистой/тёмной зоне (слева или снизу-слева) для читаемости. Не на лице, не в правых углах IG.
 
-## 4. Бренд-палитра (дефолт; перекрывается `profile/design-system.md` пользователя)
-- Pine green `#00311e` + cream `#fef7e5` + gold `#e8b96a`. В промпт: `Deep pine green / warm beige palette, cinematic, photorealistic, premium, not cartoon.`
+## 4. Бренд-палитра — только из `profile/design-system.md` пользователя
+- В промпт идут три цвета человека: фон (dominant), текст, акцент. Пример формулировки для палитры pine/cream/gold: `Deep pine green #00311e dominant, cream #fef7e5, gold #e8b96a accents, cinematic, photorealistic, premium, not cartoon.` — это пример структуры, цвета подставляй свои.
 - Свет — кинематографичный (god-rays / тёплый боковой / контровой), лёгкая дымка.
 
 ## 5. Анти-NSFW (чтобы не ловить ложный флаг и не жечь кредиты)
@@ -57,6 +57,4 @@
 ---
 
 ### Шаблон готового промпта (картинка-слайд)
-```
-<Scene type> cinematic shot, same person as in the reference photos (keep their EXACT face and identity), <signature outfit>, <конкретное действие в конкретной сцене с реквизитом>. <Окружение, свет, масштаб, ракурс>. Deep pine green / warm beige palette, photorealistic, premium, not cartoon. Clean legible Cyrillic, every word spelled correctly, bold beige. Headline reads exactly: <ЗАГОЛОВОК>. Second line reads exactly: <строка 1>. Third line reads exactly: <строка 2>. Text on the left in a clean zone. 4:5 vertical.
-```
+Рабочий шаблон слайда карусели — **`higgsfield-prompt-template.md`** рядом с этим файлом (проверен: цельный кадр, текст один раз, без кавычек и номеров). Этот документ отвечает за сцены, ловушки перевода, анти-NSFW и QA; шаблон промпта берётся оттуда.

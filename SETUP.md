@@ -28,7 +28,7 @@
 - **Claude Code** — режим Claude, где он умеет работать с файлами и запускать программы. Наш «цех».
 - **Терминал** — окно, куда вводят текстовые команды. Нужен 3 раза за весь гайд.
 - **Плагин** — набор навыков (скиллов) контент-завода, ставится двумя командами.
-- **Скилл** — один навык внутри плагина: «собери карусель», «проверь установку». Всего их 19.
+- **Скилл** — один навык внутри плагина: «собери карусель», «проверь установку». Всего их 21.
 - **Коннектор (MCP)** — «провод» между Claude и сервисом (Higgsfield, Google, Postiz). Подключается кнопками, привязан к твоему аккаунту.
 - **Фундамент** — твой стратегический паспорт (кто клиент, что продаёшь, как говоришь). Живёт в папке `profile/`, его читают все скиллы.
 
@@ -66,11 +66,11 @@
 **Mac** (Python уже стоит):
 1. Открой Терминал: `Cmd + Пробел`, набери `Терминал`, Enter.
 2. Проверь: `python3 -c "import PIL; print(PIL.__version__)"`. Вывело число — Pillow есть, шаг закончен.
-3. Нет — поставь: `python3 -m pip install --user pillow`.
+3. Нет — поставь: `python3 -m pip install --user pillow "opencv-python-headless<5" --timeout 120 --retries 5` (OpenCV `<5` — детектор лиц «текст не на лице»; в версии 5 его нет).
 4. Если в ответ пришло `externally-managed-environment` — вставь по очереди:
 ```
 python3 -m venv ~/.reels-venv
-~/.reels-venv/bin/pip install pillow
+~/.reels-venv/bin/pip install pillow "opencv-python-headless<5"
 ```
    и скажи Клоду один раз: «для Python-скриптов используй `~/.reels-venv/bin/python`».
 
@@ -110,8 +110,11 @@ winget install Gyan.FFmpeg
 - **Wispr Flow** — [wisprflow.ai](https://wisprflow.ai), Mac и Windows: горячая клавиша → говоришь → текст в любом поле. Есть бесплатный план.
 - Бесплатно встроенное: **Mac** — Настройки → Клавиатура → Диктовка (вкл), вызов двойным нажатием 🎤/Fn. **Windows** — `Win + H`.
 
-### 3.5. Что ставить НЕ нужно
-Никаких «программ для дизайна и моушена»: карусели рисует Python + Pillow, монтаж — ffmpeg, картинки/видео/анимации генерит Higgsfield в облаке. **Google Chrome не нужен** — только если сам захочешь путь «HTML → PNG/PDF». **Node.js не нужен** — только для HyperFrames (анимации кодом, см. [ADVANCED.md](ADVANCED.md)).
+### 3.5. Монтаж говорящей головы (необязательно, можно позже)
+Хук поверх клипа делают Python + ffmpeg — для этого ничего больше не нужно. Для говорящей головы (паузы, субтитры, вставки) нужен трек «монтаж»: **Node.js ≥ 18** (Mac `brew install node`, Windows `winget install OpenJS.NodeJS.LTS` + перезапуск приложения) → скиллы HyperFrames `npx hyperframes@latest skills update` → скиллы Remotion `npx -y skills@latest add remotion-dev/skills -g -y` → проект `npx hyperframes init reels-hf --resolution portrait --example blank --non-interactive` → Mac: `brew install whisper-cpp` + модель `~/.whisper-models/ggml-medium-q5_0.bin`. Клод ставит это сам по шагу 3-М из [ПРОМТ-УЧАСТНИКА.md](ПРОМТ-УЧАСТНИКА.md). Правила монтажа — скилл `reels-montazh`.
+
+### 3.6. Что ставить НЕ нужно
+Никаких «программ для дизайна»: карусели рисует Python + Pillow, картинки/видео генерит Higgsfield в облаке. **Google Chrome не нужен** — только если сам захочешь путь «HTML → PNG/PDF».
 
 ## Шаг 4. Папка проекта (5 мин)
 
@@ -142,7 +145,7 @@ winget install Gyan.FFmpeg
 ```
 **Полностью закрой приложение Claude и открой снова** (Mac: `Cmd + Q`; Windows: закрыть окно, проверить трей).
 
-✅ Проверка: спроси Клода «какие скиллы prime-content-system тебе доступны?» — перечислит **19**: foundation, business-dna, offer-builder, audience-builder, hunt-ladder, tone-of-voice-builder, design-system-builder, content-plan, content-pipeline, reels, carousel, short-post, long-post, stories, article, viral-hooks, autopost, content-routine, setup-check.
+✅ Проверка: спроси Клода «какие скиллы prime-content-system тебе доступны?» — перечислит **21**: foundation, business-dna, offer-builder, audience-builder, hunt-ladder, funnels, tone-of-voice-builder, design-system-builder, content-plan, content-pipeline, reels, reels-montazh, carousel, short-post, long-post, stories, article, viral-hooks, autopost, content-routine, setup-check.
 
 Если пишет «команда /plugin не найдена» — приложение старое, вернись к Шагу 3.1.
 
@@ -162,7 +165,7 @@ winget install Gyan.FFmpeg
 
 **Режим 2 · «Автопилот»** (`templates/settings.local.autopilot.json`) — необязательный, для ручной работы в чате в отдельной папке завода: Клод не спрашивает ничего, кроме запрещённого списка. **На рутины он не влияет** — проверено: рутина в приложении всегда идёт в режиме Manual (см. ниже). Ставить не обязательно.
 
-**Коннекторы claude.ai** (Higgsfield, Composio, Postiz) могут спросить один раз на каждый инструмент — жми **«Always allow»**, ответ записывается в тот же файл.
+**Коннекторы claude.ai** (Higgsfield, Composio, Postiz, Vercel) в Claude Code называются по id `mcp__<uuid>`, а не по имени — строки `mcp__postiz` из шаблона ничего не разрешают. Скажи «запусти setup-check»: он найдёт реальные id и допишет их в файл. Пока их нет — на каждый инструмент коннектора жми **«Always allow»**.
 
 ✅ Проверка: скажи «сделай тестовую картинку 1080×1350 через Python и сохрани в out/» — Клод делает это **без единого вопроса**.
 
@@ -206,8 +209,13 @@ https://mcp.postiz.com/mcp
 
 ✅ Проверка: «покажи мои каналы в Postiz» → Instagram и Threads.
 
-### 7.4. Проверка всего одной фразой
-Скажи Клоду: **«запусти setup-check»**. Получишь таблицу ✅/❌ по приложению, плагину, Python + Pillow, ffmpeg, коннекторам, папке `profile/` и таблице — и по каждому ❌ одну строку, что сделать.
+### 7.4. Vercel — сайт контент-плана (можно дома)
+Connectors → **Browse connectors** → Vercel → Connect → войди в Vercel (аккаунт бесплатный, vercel.com). Через него Клод выкладывает сайт контент-плана без терминала (`create_deployment`). Нет коннектора — запасной путь `npx vercel --prod --yes`.
+
+✅ Проверка: «покажи мои проекты в Vercel» → список (может быть пустым).
+
+### 7.5. Проверка всего одной фразой
+Скажи Клоду: **«запусти setup-check»**. Получишь таблицу ✅/❌ по приложению, плагину, Python + Pillow + OpenCV, ffmpeg, монтажу (если ставил), коннекторам (и их id в allow-листе), мосту в Drive, папке `profile/` и таблице — и по каждому ❌ одну строку, что сделать.
 
 ## Шаг 8. Фото — два варианта хранения
 
@@ -222,19 +230,17 @@ https://mcp.postiz.com/mcp
 
 1. Открой **новый чат** в Claude Code.
 2. Открой [PROMPTS.md](PROMPTS.md) и вставь целиком **промт №1** (полное интервью). На тренинге, когда время ограничено, — **промт №2** (быстрый режим, 10 минут): впиши в него нишу, продукт, цену, цель и откуда приходят клиенты.
-3. Отвечай на вопросы (по 3–4 за раз, с вариантами). Потом Клод покажет каркас — поправь, что неправда.
+3. Отвечай на вопросы (по 3–4 за раз, с вариантами). Отдельно Клод спросит про события запуска (эфир, марафон, поток — даты и кодовые слова): они лягут в раздел «Актуальный запуск» в `business-dna.md`, который главнее всех остальных заметок. Потом Клод покажет каркас — поправь, что неправда.
 4. На выходе: `profile/foundation.html` (открой в браузере — паспорт проекта с навигацией) и профили в `profile/`.
-5. Сразу после — скажи: **«запусти design-system-builder»**. Назови любимые цвета и шрифты или выбери из 2–3 палитр. Появится `profile/design-system.md`.
+5. Сразу после — цепочка из трёх коротких скиллов: **«запусти funnels»** (1–3 воронки, кодовые слова, прогрев по дням → `profile/funnels.md`) → **«запусти tone-of-voice-builder»** (по своим текстам + «Мои запреты») → **«запусти design-system-builder»** (скриншот своего поста → цвета пипеткой, или 2–3 палитры на выбор; шрифт с кириллицей). Никаких чужих цветов по умолчанию — только твои.
 
 Есть свои материалы (распаковка, анализ ЦА)? Положи их в папку `материалы/` и добавь к промту первой строкой: «Мои материалы приложены. Прочитай их, спрашивай только про то, чего в них нет».
 
-✅ Проверка: в папке `profile/` лежат `foundation.html`, `business-dna.md`, `audience.md`, `hunt-ladder.md`, `offer.md`, `design-system.md`.
-
-Голос бренда (`tone-of-voice.md`) — отдельно: «запусти tone-of-voice-builder», приложи 3–10 своих текстов.
+✅ Проверка: в папке `profile/` лежат `foundation.html`, `business-dna.md` (с «Актуальный запуск»), `audience.md`, `hunt-ladder.md`, `offer.md`, `funnels.md`, `tone-of-voice.md`, `design-system.md`.
 
 ## Шаг 10. Первый контент-план и первая карусель (30 мин)
 
-Новый чат → **промт №4** из [PROMPTS.md](PROMPTS.md). Клод покажет план в чате → утверждаешь → образец из 2 постов → утверждаешь → таблица в Google Sheets.
+Новый чат → **промт №4** из [PROMPTS.md](PROMPTS.md). Клод спросит горизонт (по умолчанию 2 недели) и ритм (по умолчанию карусель каждый день + 3 рилса), подтвердит события и воронки → план в чате → утверждаешь → образец из 2 постов → утверждаешь → таблица в Google Sheets, каждая строка с воронкой. Сразу после таблицы — сайт контент-плана через коннектор Vercel.
 
 Первую карусель попроси так: **«собери карусель по строке 1 плана»**. В колонке «Формат» стоит тип и маршрут, например `Карусель · T1 · C` — это код Python + Pillow, картинки появятся в `output/`, ссылка и статус «На утверждении» — в таблице.
 
@@ -287,7 +293,7 @@ https://mcp.postiz.com/mcp
 | Симптом | Решение |
 |---|---|
 | Команда `/plugin` не найдена | Приложение старое: About → Check for updates → перезапуск (нужно ≥ 2.1.193) |
-| Плагин не виден / скиллов меньше 19 | Полностью перезапусти приложение; потом `/plugin marketplace update prime-ai` |
+| Плагин не виден / скиллов меньше 21 | Полностью перезапусти приложение; потом `/plugin marketplace update prime-ai` |
 | Клод спрашивает разрешение | «Always allow» — один раз на инструмент |
 | `No module named PIL` | Шаг 3.2: `python3 -m pip install --user pillow` (Windows: `python …`) |
 | `externally-managed-environment` | Шаг 3.2, пункт 4: venv `~/.reels-venv` |
@@ -295,6 +301,9 @@ https://mcp.postiz.com/mcp
 | Коннектор не подключается | Перепроверь URL; ищи на сайте сервиса «MCP»/«Integrations»; спроси Клода |
 | Postiz: пост не создаётся | Медиа — публичная ссылка? Время в UTC? Канал подключён в app.postiz.com? |
 | Карусель не собирается | «Запусти setup-check» → почини ❌ → «собери снова маршрутом C» или «маршрутом K» |
+| `build_c.py` / `build_reel.py` выходят с кодом 6 / 5 «нет детектора» | OpenCV 5.x или нет каскада | `pip install "opencv-python-headless<5"`, каскад в `fonts/` |
+| Локальная рутина встала на коннекторе | в allow-листе названия, а не id `mcp__<uuid>` | «запусти setup-check» — допишет id |
+| На слайде Higgsfield «», «6 of 6», текст дважды | промпт из старого шаблона | пересобери G по `higgsfield-prompt-template.md` |
 | winget/brew не найдены | Windows: обнови «App Installer» в Microsoft Store · Mac: поставь Homebrew (Шаг 3.3) |
 | Кончились лимиты Pro | Подождать сброс окна или Max-подписка |
 | Текст «звучит как ИИ» | «Прогони через аудит copy-engine и перепиши» |

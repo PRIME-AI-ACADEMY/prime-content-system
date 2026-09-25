@@ -20,15 +20,18 @@
 Коннектор: Composio (Google Drive).
 
 ДАННЫЕ
-- Локально: profile/ (business-dna.md, audience.md, hunt-ladder.md, offer.md,
+- Локально: profile/ (business-dna.md, audience.md, hunt-ladder.md, offer.md, funnels.md,
   tone-of-voice.md, design-system.md, foundation.html), photos/, photo-catalog.md,
   fonts/Montserrat-VF.ttf. Профиль Threads: ~/Claude/threads/profile/ (dna.md, voice.md,
   funnel.md, rubrics.md).
 - Drive: папка «Контент-завод» в корне Моего диска. Внутри: profile/, profile/threads/,
   photos/, Готовое/.
-- Публичная ссылка на локальный файл для импорта: Higgsfield media_upload → curl -X PUT
-  --data-binary @файл <upload_url> → media_confirm → CloudFront-URL → Composio
-  UPLOAD_FROM_URL. Текстовые файлы можно создавать напрямую содержимым (CREATE_FILE).
+- Публичная ссылка на локальный файл для импорта (мост drive-bridge): Higgsfield
+  media_upload (files[], до 20) → curl -X PUT -H "Content-Type: <тип>" --data-binary @файл
+  <upload_url> (.md → application/octet-stream, .html → text/html, .jpg → image/jpeg) →
+  media_confirm, если просит → CloudFront-URL → Composio UPLOAD_FROM_URL. Есть папка
+  ~/Library/CloudStorage/GoogleDrive-*/ — просто cp туда. Текстовые файлы можно создавать
+  напрямую содержимым (CREATE_FILE).
 
 ШАГИ
 1. Найди в Drive папку «Контент-завод». Нет — создай её и подпапки profile/,
@@ -60,15 +63,18 @@
 Коннектор: Composio (Google Drive).
 
 ДАННЫЕ
-- Локально: profile/ (business-dna.md, audience.md, hunt-ladder.md, offer.md,
+- Локально: profile/ (business-dna.md, audience.md, hunt-ladder.md, offer.md, funnels.md,
   tone-of-voice.md, design-system.md, foundation.html), photos/, photo-catalog.md,
   fonts/. Профиль Threads: ~/Claude/threads/profile/ (dna.md, voice.md, funnel.md,
   rubrics.md) — если папки нет, пропусти.
 - Drive: папка «Контент-завод» в корне Моего диска. Внутри: profile/, profile/threads/,
   photos/, Готовое/.
-- Публичная ссылка на локальный файл для импорта: Higgsfield media_upload → curl -X PUT
-  --data-binary @файл <upload_url> → media_confirm → CloudFront-URL → Composio
-  UPLOAD_FROM_URL. Текстовые файлы можно создавать напрямую содержимым (CREATE_FILE).
+- Публичная ссылка на локальный файл для импорта (мост drive-bridge): Higgsfield
+  media_upload (files[], до 20) → curl -X PUT -H "Content-Type: <тип>" --data-binary @файл
+  <upload_url> (.md → application/octet-stream, .html → text/html, .jpg → image/jpeg) →
+  media_confirm, если просит → CloudFront-URL → Composio UPLOAD_FROM_URL. Есть папка
+  ~/Library/CloudStorage/GoogleDrive-*/ — просто cp туда. Текстовые файлы можно создавать
+  напрямую содержимым (CREATE_FILE).
 
 ШАГИ
 1. Найди в Drive папку «Контент-завод». Нет — создай её и подпапки profile/,

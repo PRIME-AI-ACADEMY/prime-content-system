@@ -1,7 +1,7 @@
 {
   "name": "prime-content-system",
-  "version": "0.11.0",
-  "description": "PRIME AI — кастомизируемая контент-система, 19 скиллов. foundation — первый шаг: одно интервью → шесть блоков (ЦА, отстройка, смыслы, оффер, путь клиента, стратегия) одним HTML-паспортом + профили в profile/. Точечные конструкторы (business-dna, audience, hunt-ladder, offer, tone-of-voice, design-system) дорабатывают отдельный блок; viral-hooks — банк из 300 хуков в 10 категориях под русскоязычный рынок; content-plan — промпт на каждый слайд + тип карусели T1–T4 и маршрут H/C/K; carousel — H: Higgsfield nano_banana_pro с референсом лица / C: Python+Pillow без браузера / K: Canva; autopost — Postiz по умолчанию (Instagram + Threads), альтернативы Metricool / Meta Graph API / ручной; content-routine — автопилот; setup-check — диагностика. Профили — папка profile/ в проекте, зеркало в Google Drive; контент-план — Google-таблица.",
+  "version": "0.12.0",
+  "description": "PRIME AI — кастомизируемая контент-система, 21 скилл. foundation — первый шаг: одно интервью → шесть блоков + «Актуальный запуск» (даты, кодовые слова) → HTML-паспорт + профили в profile/. funnels — агент по воронкам: 1–3 паспорта вечных воронок, словарь CTA и кодовых слов, прогрев по дням; content-plan размечает каждую строку воронкой, горизонт 2 недели, карусель каждый день + 3 рилса. Точечные конструкторы (business-dna, audience, hunt-ladder, offer, tone-of-voice с «Мои запреты», design-system — только цвета и шрифты участника). carousel — H: Higgsfield по проверенному шаблону (цельный кадр, текст один раз, без кавычек и номеров) / C: Python+Pillow с реальными фото на обложке и финале / K: Canva. reels-montazh — хук поверх клипа и говорящая голова (HyperFrames, H.264). autopost — Postiz (CloudFront-ссылки, UTC, черновики). content-routine — рутины: план на 2 недели, медиа на 7 дней вперёд. setup-check — диагностика + запись id коннекторов в allow-лист, Vercel. Файлы в Drive — мост drive-bridge.",
   "author": {
     "name": "Angelina Khudiakova"
   },
@@ -29,6 +29,10 @@
     "positioning",
     "audience",
     "threads",
-    "profile"
+    "profile",
+    "funnels",
+    "montage",
+    "hyperframes",
+    "vercel"
   ]
 }
