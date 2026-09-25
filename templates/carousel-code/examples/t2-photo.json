@@ -1,0 +1,56 @@
+{
+  "name": "t2-karuseli-avtopilot",
+  "handle": "@angelinaa.kh",
+  "type": "T2",
+  "route": "H",
+  "brand": {
+    "bg": "#00311e",
+    "text": "#fef7e5",
+    "accent": "#e8b96a",
+    "font": "fonts/Montserrat-VF.ttf"
+  },
+  "h": {
+    "model": "nano_banana_pro",
+    "reference": "d3acb6bf-779f-465f-bb17-ec705401b8fa",
+    "aspect_ratio": "4:5",
+    "resolution": "2k",
+    "outfit": "cream linen blazer over a white silk top, long dark hair loose, no glasses"
+  },
+  "slides": [
+    {
+      "n": 1,
+      "role": "cover",
+      "kicker": "Контент-завод",
+      "big": "Три карусели в неделю *без дизайнера*",
+      "small": "показываю схему ↓",
+      "photo": "photos/portrait-01.jpg",
+      "scene": "she sits at a long dark-green conference table, laptop open, three floating translucent Instagram carousel cards (NOT amusement-park rides) hovering above the table, warm side light, slight haze, medium shot from the front, her head and shoulders fill the upper half of the frame"
+    },
+    {
+      "n": 2,
+      "role": "body",
+      "kicker": "Шаг 1",
+      "big": "Ты пишешь план на неделю",
+      "small": "Один промт — таблица с темами, хуками и текстом каждого слайда.",
+      "scene": "close-up over her shoulder: a laptop screen with a clean spreadsheet grid glowing softly, her hand on the trackpad, dark pine-green room, cinematic rim light, no readable UI text on the screen"
+    },
+    {
+      "n": 3,
+      "role": "body",
+      "kicker": "Шаг 2",
+      "big": "Код рисует слайды",
+      "small": "Python берёт твои фото и бренд-цвета. Без Canva, без браузера.",
+      "scene": "she stands beside a large wall display where four blank pine-green 4:5 cards assemble themselves out of light particles, she looks at the wall in three-quarter profile, epic wide shot, gold and cream glow, no readable text on the cards"
+    },
+    {
+      "n": 4,
+      "role": "cta",
+      "kicker": "Забирай",
+      "big": "Один раз настроил — *выходит каждый день*",
+      "small": "Показываю систему изнутри.",
+      "cta": "Пиши «СИСТЕМА»",
+      "photo": "photos/stage-02.jpg",
+      "scene": "she stands on a small stage in front of a pine-green wall with a soft gold spotlight, holding a microphone, smiling straight into the camera, medium portrait 85mm, her head and shoulders fill the upper half of the frame"
+    }
+  ]
+}

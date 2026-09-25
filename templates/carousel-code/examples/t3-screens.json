@@ -1,0 +1,55 @@
+{
+  "name": "t3-vnutri-zavoda",
+  "handle": "@angelinaa.kh",
+  "type": "T3",
+  "route": "C",
+  "brand": {
+    "bg": "#00311e",
+    "text": "#fef7e5",
+    "accent": "#e8b96a",
+    "font": "fonts/Montserrat-VF.ttf"
+  },
+  "slides": [
+    {
+      "n": 1,
+      "role": "cover",
+      "kicker": "Внутрянка",
+      "big": "Так выглядит *контент-завод* изнутри",
+      "small": "3 скрина, без прикрас",
+      "photo": "photos/portrait-02.jpg"
+    },
+    {
+      "n": 2,
+      "role": "body",
+      "kicker": "Скрин 1 · таблица",
+      "screenshot": "screens/sheet-plan.png",
+      "big": "План на неделю в одной таблице",
+      "small": "Тема, хук, текст каждого слайда, статус — всё в одной строке."
+    },
+    {
+      "n": 3,
+      "role": "body",
+      "kicker": "Скрин 2 · Drive",
+      "screenshot": "screens/drive-folder.png",
+      "big": "Готовые слайды падают в папку",
+      "small": "Открываешь с телефона, смотришь, ставишь «Утверждено»."
+    },
+    {
+      "n": 4,
+      "role": "body",
+      "kicker": "Скрин 3 · таблица",
+      "screenshot": "screens/sheet-plan.png",
+      "big": "Статус меняется сам",
+      "small": "Ночью система забирает утверждённые строки и ставит их в очередь."
+    },
+    {
+      "n": 5,
+      "role": "cta",
+      "kicker": "Забирай",
+      "big": "Хочешь такой же стол?",
+      "small": "Показываю, как собрать его за вечер.",
+      "cta": "Пиши «СИСТЕМА»",
+      "photo": "photos/stage-01.jpg"
+    }
+  ]
+}
