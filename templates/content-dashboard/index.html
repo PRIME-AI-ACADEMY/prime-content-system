@@ -1,0 +1,480 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Контент-платформа</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="config.js"></script>
+<style>
+:root{--bg:#07130d;--bg2:#0a1c13;--card:#0f2418;--card2:#123020;--line:#1c3a2a;
+  --cream:#fef7e5;--mut:#8fa79a;--gold:#e8b96a;--gold2:#c89550;--pine:#00311e;--tagbg:#14301f;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Montserrat,system-ui,sans-serif;background:
+  radial-gradient(1200px 600px at 80% -10%,color-mix(in srgb,var(--pine) 70%,#0a0a0a) 0%,transparent 60%),
+  radial-gradient(900px 500px at -10% 10%,color-mix(in srgb,var(--pine) 55%,#050505) 0%,transparent 55%),var(--bg);
+  color:var(--cream);min-height:100vh;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+.topbar{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.topbar .row{display:flex;align-items:center;gap:16px;padding:15px 0;flex-wrap:wrap}
+.brand{font-weight:900;letter-spacing:1px;font-size:19px;white-space:nowrap}.brand span{color:var(--gold)}
+.weeks{display:flex;gap:6px;overflow-x:auto;max-width:100%;padding-bottom:2px;scrollbar-width:thin}
+.wk{color:var(--mut);font-weight:700;font-size:13px;padding:7px 14px;border:1px solid var(--line);border-radius:20px;cursor:pointer;transition:.15s;white-space:nowrap}
+.wk:hover{color:var(--cream)}.wk.active{background:var(--gold);color:var(--pine);border-color:var(--gold)}
+.wk.cur:not(.active){border-color:var(--gold2);color:var(--cream)}
+.autobar{margin-left:auto;display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--line);padding:6px 8px 6px 14px;border-radius:22px;font-weight:700;font-size:12.5px;color:var(--mut);white-space:nowrap}
+.autobar b{color:var(--cream)}
+.dotlive{width:8px;height:8px;border-radius:50%;background:#4ee08a;box-shadow:0 0 8px #4ee08a;animation:pulse 1.6s infinite;flex:none}
+.dotlive.err{background:#ff7a7a;box-shadow:0 0 8px #ff7a7a}.dotlive.load{background:var(--gold);box-shadow:0 0 8px var(--gold)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.ibtn{border:1px solid var(--line);background:transparent;color:var(--gold);font-weight:800;font-size:13px;padding:5px 10px;border-radius:14px;cursor:pointer;transition:.15s}
+.ibtn:hover{background:var(--tagbg)}.ibtn.spin{animation:sp .8s linear infinite}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;padding:0 0 14px}
+.tab{padding:9px 16px;border-radius:20px;font-weight:700;font-size:14px;color:var(--mut);border:1px solid transparent;cursor:pointer;transition:.15s;white-space:nowrap}
+.tab:hover{color:var(--cream)}.tab.active{background:var(--gold);color:var(--pine)}
+.tab .n{font-size:11px;opacity:.75;margin-left:4px}
+.hero{padding:32px 0 16px}
+.hero h1{font-size:48px;font-weight:900;line-height:1.02;letter-spacing:-1px}.hero h1 span{color:var(--gold)}
+.hero p{color:var(--mut);font-size:17px;font-weight:500;margin-top:14px;max-width:700px}
+.kpis{display:flex;gap:14px;flex-wrap:wrap;margin-top:22px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 20px;min-width:140px}
+.kpi b{display:block;font-size:28px;font-weight:900;color:var(--gold)}.kpi span{color:var(--mut);font-size:13px;font-weight:600}
+.week{display:grid;grid-template-columns:repeat(7,1fr);gap:10px;margin:18px 0 24px}
+.day{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 8px;text-align:center;cursor:pointer;transition:.15s}
+.day:hover{border-color:var(--gold2);transform:translateY(-2px)}
+.day .dn{color:var(--mut);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px}
+.day .dd{font-size:20px;font-weight:800;margin-top:4px}
+.day .cnt{font-size:11px;color:var(--gold);font-weight:700;margin-top:5px;min-height:14px}
+.day.today{border-color:var(--gold)}.day.sel{background:var(--gold);color:var(--pine)}
+.day.sel .dn,.day.sel .cnt{color:var(--pine)}
+.sec{margin:28px 0 12px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.sec h2{font-size:22px;font-weight:800}.sec .ln{flex:1;height:1px;background:var(--line)}
+.sec .pill{font-size:12px;font-weight:700;color:var(--gold);border:1px solid var(--gold2);padding:3px 10px;border-radius:20px}
+.clearday{font-size:13px;font-weight:700;color:var(--gold);cursor:pointer;border:1px solid var(--gold2);padding:6px 12px;border-radius:18px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px}
+.card{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:18px;padding:20px;display:flex;flex-direction:column;gap:11px;cursor:pointer;transition:.15s}
+.card:hover{border-color:var(--gold2);transform:translateY(-2px)}
+.card .top{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.badge{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;padding:4px 9px;border-radius:8px}
+.b-car{background:#1b2f4a;color:#9dc0ff}.b-reel{background:#3a2140;color:#e2a8ff}.b-post{background:#14301f;color:#8fe0ad}.b-thread{background:#2a2340;color:#c3b3ff}.b-event{background:#402a14;color:#ffcf8f}.b-story{background:#3a2a2a;color:#ffb3a8}
+.date{color:var(--mut);font-size:12px;font-weight:700;margin-left:auto}
+.card h3{font-size:18px;font-weight:800;line-height:1.22}
+.card .hook{color:var(--mut);font-size:14px;font-weight:500;line-height:1.5}
+.tags{display:flex;gap:6px;flex-wrap:wrap}
+.tag{font-size:11px;font-weight:700;background:var(--tagbg);color:var(--gold);padding:4px 10px;border-radius:20px;border:1px solid var(--line)}
+.tag.claude{background:#14301f;color:#8fe0ad;border-color:#245a37}
+.tag.postiz{background:#241a33;color:#c3a8ff;border-color:#3a2a54}
+.tag.hf{background:#2a1f33;color:#e2a8ff;border-color:#4a3358}
+.card .foot{display:flex;align-items:center;gap:10px;margin-top:auto;padding-top:4px}
+.cta{font-size:13px;font-weight:800;color:var(--pine);background:var(--gold);padding:7px 13px;border-radius:10px;max-width:60%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.openx{font-size:13px;font-weight:700;color:var(--gold);margin-left:auto;white-space:nowrap}
+.stt{font-size:12px;font-weight:800;padding:5px 12px;border-radius:20px;white-space:nowrap}
+.stt.plan{background:#1f2a33;color:#a9c4d8}.stt.review{background:#402a14;color:#ffcf8f}.stt.appr{background:#1b2f4a;color:#9dc0ff}
+.stt.sched{background:#241a33;color:#c3a8ff}.stt.pub{background:#14301f;color:#8fe0ad}.stt.redo{background:#3d1a1a;color:#ff9f9f}.stt.other{background:var(--tagbg);color:var(--mut)}
+.flow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:var(--card);border:1px dashed var(--line);border-radius:14px;padding:14px 18px;margin-bottom:18px;font-weight:700;font-size:14px;color:var(--mut)}
+.flow .st{color:var(--cream)}.flow .ar{color:var(--gold)}
+.q{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:18px;padding:20px;display:flex;flex-direction:column;gap:12px}
+.q .qhead{display:flex;align-items:center;gap:10px}.q .qhead h3{font-size:17px;font-weight:800;flex:1}
+.q .qmeta{display:flex;gap:8px;flex-wrap:wrap;font-size:12px;color:var(--mut);font-weight:600}.q .qmeta b{color:var(--cream)}
+pre.pr{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:14px;color:var(--mut);font-size:11.5px;line-height:1.5;white-space:pre-wrap;font-family:inherit;max-height:170px;overflow:auto}
+.q .acts{display:flex;gap:8px;flex-wrap:wrap}
+.gbtn{font-size:14px;font-weight:800;color:var(--pine);background:var(--gold);border:none;padding:11px 16px;border-radius:12px;cursor:pointer;transition:.15s}
+.gbtn:hover{filter:brightness(1.08)}.gbtn:disabled{opacity:.6;cursor:default}
+.gbtn.sec{background:transparent;color:var(--gold);border:1px solid var(--gold2)}
+.gbtn.ok{background:#14301f;color:#8fe0ad;border-color:#245a37}
+.drivelink{font-size:13px;font-weight:700;color:#8fe0ad;border:1px solid #245a37;padding:9px 12px;border-radius:10px;display:inline-block}
+.empty{color:var(--mut);padding:24px;border:1px dashed var(--line);border-radius:16px;text-align:center;line-height:1.6}
+.msg{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:28px;margin:40px 0;line-height:1.7}
+.msg h2{font-size:22px;font-weight:900;margin-bottom:10px}.msg.err{border-color:#6b2a2a}.msg code{background:var(--bg2);padding:2px 7px;border-radius:6px;font-size:13px;word-break:break-all}
+.msg ol{margin:10px 0 0 20px;color:var(--mut)}.msg ol b{color:var(--cream)}
+.ov{position:fixed;inset:0;background:rgba(3,10,7,.72);backdrop-filter:blur(6px);z-index:50;display:none;align-items:flex-start;justify-content:center;padding:40px 16px;overflow:auto}
+.ov.open{display:flex}
+.modal{background:linear-gradient(180deg,var(--card2),var(--bg2));border:1px solid var(--line);border-radius:22px;max-width:720px;width:100%;overflow:hidden;animation:pop .18s ease}
+@keyframes pop{from{transform:translateY(12px);opacity:.6}to{transform:none;opacity:1}}
+.mhead{padding:24px 28px 18px;border-bottom:1px solid var(--line);position:relative}
+.mhead .mt{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px}
+.mhead h2{font-size:23px;font-weight:900;line-height:1.15;padding-right:36px}
+.mhead .md{color:var(--mut);font-size:14px;margin-top:8px;line-height:1.5}
+.close{position:absolute;top:20px;right:22px;font-size:26px;color:var(--mut);cursor:pointer;line-height:1}
+.close:hover{color:var(--cream)}
+.mbody{padding:20px 28px 26px;max-height:62vh;overflow:auto}
+.reelbtn{width:100%;margin-bottom:12px;display:block;text-align:center;font-size:15px;font-weight:800;color:var(--pine);background:var(--gold);padding:13px;border-radius:12px}
+.reelbtn.sec{background:transparent;color:#8fe0ad;border:1px solid #245a37}
+.copyall{width:100%;margin-bottom:16px}
+.slide{background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:12px;position:relative}
+.slide .sn{font-size:11px;font-weight:800;color:var(--gold);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;padding-right:100px}
+.slide .sbig{font-size:17px;font-weight:800;line-height:1.3;white-space:pre-wrap}
+.slide .ssmall{color:var(--mut);font-size:14px;line-height:1.55;margin-top:6px;white-space:pre-wrap}
+.copy{position:absolute;top:12px;right:12px;font-size:12px;font-weight:700;color:var(--gold);border:1px solid var(--gold2);background:transparent;padding:5px 10px;border-radius:8px;cursor:pointer}
+.copy:hover{background:var(--tagbg)}.copy.ok{color:#8fe0ad;border-color:#245a37}
+.thread .slide .sbig{font-weight:600;font-size:15px}
+details.more{margin-top:14px;border:1px solid var(--line);border-radius:14px;background:var(--card)}
+details.more summary{cursor:pointer;padding:12px 16px;font-weight:800;font-size:13px;color:var(--gold);list-style:none}
+details.more summary::-webkit-details-marker{display:none}
+details.more .in{padding:0 16px 16px;position:relative}
+details.more pre.pr{max-height:320px}
+.hooks{margin-bottom:14px}
+footer{color:var(--mut);font-size:13px;text-align:center;padding:36px 0 30px;line-height:1.7}footer b{color:var(--gold)}
+@media(max-width:640px){.hero h1{font-size:36px}.week{grid-template-columns:repeat(4,1fr)}.mhead h2{font-size:20px}.autobar{margin-left:0;width:100%}.cta{max-width:100%}}
+</style>
+</head>
+<body>
+<div class="topbar"><div class="wrap">
+  <div class="row"><div class="brand" id="brand"></div>
+    <div class="weeks" id="weeks"></div>
+    <div class="autobar"><span class="dotlive load" id="dot"></span><span id="upd">читаю таблицу…</span>
+      <a class="ibtn" id="sheetlink" href="#" target="_blank" title="Открыть таблицу">📊</a>
+      <button class="ibtn" id="refresh" title="Перечитать таблицу" onclick="loadAll(true)">↻</button></div>
+  </div>
+  <div class="tabs" id="tabs"></div>
+</div></div>
+<div class="wrap" id="app"><div class="msg"><h2>Читаю таблицу…</h2><span style="color:var(--mut)">Секунду — забираю контент-план из Google-таблицы.</span></div></div>
+<footer id="foot"></footer>
+<div class="ov" id="ov"><div class="modal" id="modal"></div></div>
+
+<script>
+// ===================== КОНФИГ И БРЕНД =====================
+const C = Object.assign({SHEET_ID:'',TABS:[],BRAND:{},TITLE:'Контент-платформа',TAGLINE:'',REFRESH_MIN:5}, window.CONFIG||{});
+const BRAND = Object.assign({name:'PRIME · AI',handle:'',colors:{}}, C.BRAND||{});
+const DEF = {pine:'#00311e',cream:'#fef7e5',gold:'#e8b96a'};
+const COL = Object.assign({}, DEF, BRAND.colors||{});
+(function applyBrand(){
+  document.title = C.TITLE || 'Контент-платформа';
+  const b=document.getElementById('brand');
+  const parts=(BRAND.name||'').split(/\s*·\s*/);
+  b.innerHTML = parts.length>1 ? esc(parts[0])+' · <span>'+esc(parts.slice(1).join(' · '))+'</span>' : '<span>'+esc(BRAND.name||'')+'</span>';
+  document.getElementById('foot').innerHTML = `Контент-платформа <b>${esc(BRAND.name||'')}</b>${BRAND.handle?' · '+esc(BRAND.handle):''}<br>🧠 план живёт в Google-таблице · сайт перечитывает её каждые ${C.REFRESH_MIN||5} мин · поменяй статус в таблице — увидишь здесь`;
+  const sl=document.getElementById('sheetlink'); sl.href='https://docs.google.com/spreadsheets/d/'+C.SHEET_ID+'/edit';
+  const changed = Object.keys(DEF).some(k=>norm(COL[k])!==norm(DEF[k]));
+  if(!changed) return;
+  const r=document.documentElement.style, p=COL.pine, cr=COL.cream, g=COL.gold;
+  r.setProperty('--pine',p); r.setProperty('--cream',cr); r.setProperty('--gold',g);
+  r.setProperty('--gold2',mix(g,'#000000',.18));
+  r.setProperty('--bg',lift(mix('#000000',p,.38),6));
+  r.setProperty('--bg2',lift(mix('#000000',p,.55),5));
+  r.setProperty('--card',lift(mix('#000000',p,.72),10));
+  r.setProperty('--card2',lift(mix('#000000',p,.95),12));
+  r.setProperty('--line',lift(mix(p,'#808080',.28),4));
+  r.setProperty('--tagbg',lift(mix('#000000',p,.8),8));
+  r.setProperty('--mut',mix(cr,p,.45));
+  function norm(h){return (h||'').toLowerCase().replace('#','').replace(/^([0-9a-f])([0-9a-f])([0-9a-f])$/,'$1$1$2$2$3$3');}
+  function rgb(h){h=norm(h);return [0,2,4].map(i=>parseInt(h.substr(i,2),16)||0);}
+  function hex(a){return '#'+a.map(v=>Math.max(0,Math.min(255,Math.round(v))).toString(16).padStart(2,'0')).join('');}
+  function mix(a,b,t){const A=rgb(a),B=rgb(b);return hex(A.map((v,i)=>v*(1-t)+B[i]*t));}
+  function lift(h,n){return hex(rgb(h).map(v=>v+n));}
+})();
+
+// ===================== УТИЛИТЫ =====================
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+const RUD=['Вс','Пн','Вт','Ср','Чт','Пт','Сб'];
+const RUMON=['янв','февр','мар','апр','мая','июн','июл','авг','сент','окт','нояб','дек'];
+function isoOf(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+function iso(y,m,d){const dt=new Date(y,m-1,d,12);if(isNaN(dt)||dt.getMonth()!==m-1)return null;return isoOf(dt);}
+function D(isoS){return new Date(isoS+'T12:00:00');}
+function wd(isoS){return RUD[D(isoS).getDay()];}
+function dm(isoS){const d=D(isoS);return d.getDate()+'.'+String(d.getMonth()+1).padStart(2,'0');}
+const TODAY=isoOf(new Date());
+function mondayOf(isoS){const d=D(isoS);d.setDate(d.getDate()-((d.getDay()+6)%7));return isoOf(d);}
+function addDays(isoS,n){const d=D(isoS);d.setDate(d.getDate()+n);return isoOf(d);}
+function weekLabel(mon){const a=D(mon),b=D(addDays(mon,6));return a.getMonth()===b.getMonth()?`${a.getDate()}–${b.getDate()} ${RUMON[a.getMonth()]}`:`${a.getDate()} ${RUMON[a.getMonth()]} – ${b.getDate()} ${RUMON[b.getMonth()]}`;}
+function isUrl(s){return /^https?:\/\//i.test((s||'').trim());}
+function plural(n,a,b,c){const m=n%10,h=n%100;return n+' '+(h>=11&&h<=14?c:m===1?a:(m>=2&&m<=4?b:c));}
+
+// ---- даты: YYYY-MM-DD · DD.MM.YYYY · DD.MM · D MMM(.) [YYYY] · M/D/YYYY · Sep 17, 2026 ----
+const RUM={'янв':1,'фев':2,'мар':3,'апр':4,'мая':5,'май':5,'июн':6,'июл':7,'авг':8,'сен':9,'окт':10,'ноя':11,'дек':12};
+const ENM={jan:1,feb:2,mar:3,apr:4,may:5,jun:6,jul:7,aug:8,sep:9,oct:10,nov:11,dec:12};
+function monthOf(w){w=(w||'').toLowerCase().replace('.','');const k3=w.slice(0,3);return RUM[k3]||ENM[k3]||null;}
+function guessYear(mo,d){const y=new Date().getFullYear(),t=D(TODAY);let best=null,bd=Infinity;for(const yy of [y-1,y,y+1]){const s=iso(yy,mo,d);if(!s)continue;const df=Math.abs(D(s)-t);if(df<bd){bd=df;best=s;}}return best;}
+function parseDate(raw){
+  let s=String(raw||'').trim().toLowerCase(); if(!s)return null;
+  s=s.replace(/^[a-zа-яё]{2,3}[.,]?\s+(?=\d)/,''); // "пн 17.09" → "17.09"
+  let m;
+  if(m=s.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/))return iso(+m[1],+m[2],+m[3]);
+  if(m=s.match(/^(\d{1,2})[.\-\/](\d{1,2})[.\-\/](\d{4})/))return iso(+m[3],+m[2],+m[1]);
+  if(m=s.match(/^(\d{1,2})\.(\d{1,2})\.(\d{2})(?!\d)/))return iso(2000+ +m[3],+m[2],+m[1]);
+  if(m=s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/))return iso(+m[3],+m[1],+m[2]);
+  if(m=s.match(/^(\d{1,2})\.(\d{1,2})(?![.\d])/))return guessYear(+m[2],+m[1]);
+  if(m=s.match(/^(\d{1,2})\s+([a-zа-яё]+)\.?,?\s*(\d{4})?/)){const mo=monthOf(m[2]);if(mo)return m[3]?iso(+m[3],mo,+m[1]):guessYear(mo,+m[1]);}
+  if(m=s.match(/^([a-zа-яё]+)\.?\s+(\d{1,2}),?\s*(\d{4})?/)){const mo=monthOf(m[1]);if(mo)return m[3]?iso(+m[3],mo,+m[2]):guessYear(mo,+m[2]);}
+  const d=new Date(raw); if(!isNaN(d)&&d.getFullYear()>2000)return isoOf(d);
+  return null;
+}
+
+// ---- CSV (кавычки, запятые и переносы строк внутри ячеек) ----
+function parseCSV(text){
+  const rows=[];let row=[],f='',q=false;
+  if(text.charCodeAt(0)===0xFEFF)text=text.slice(1);
+  for(let i=0;i<text.length;i++){const c=text[i];
+    if(q){ if(c==='"'){ if(text[i+1]==='"'){f+='"';i++;} else q=false; } else f+=c; }
+    else { if(c==='"')q=true; else if(c===','){row.push(f);f='';} else if(c==='\n'){row.push(f);rows.push(row);row=[];f='';} else if(c!=='\r')f+=c; }
+  }
+  if(f!==''||row.length){row.push(f);rows.push(row);}
+  return rows;
+}
+
+// ---- колонки: ищем по названию, иначе по позиции A–P ----
+const COLSPEC=[
+  ['date',/дата|date/i,0],['fmt',/формат|format/i,1],['title',/тема|topic|title/i,2],['hooks',/хук|hook/i,3],
+  ['hunt',/хант|hunt|ступен/i,4],['cta',/cta|ключ/i,5],['prompt',/промпт|prompt|дизайн/i,6],['text',/voiceover|текст|слайд|script/i,7],
+  ['media',/медиа|media/i,8],['source',/источник|скриншот|screenshot/i,9],['drive',/ссылка на медиа|drive|медиа \(/i,10],['status',/статус|status/i,11],
+  ['postiz',/postiz/i,12],['result',/зашло|как сделано|result/i,13],['channel',/канал|channel/i,14],['link',/ссылка на публикац|публикац|post url|url поста|permalink/i,15]];
+function mapCols(header){
+  const used=new Set(),map={};
+  const h=header.map(x=>String(x||'').trim());
+  for(const [k,re] of COLSPEC){const i=h.findIndex((x,j)=>x&&!used.has(j)&&re.test(x));if(i>=0){map[k]=i;used.add(i);}}
+  for(const [k,,pos] of COLSPEC){if(map[k]==null&&!used.has(pos)&&h[pos]!=null&&(h.length>pos)){map[k]=pos;used.add(pos);}}
+  return map;
+}
+
+// ---- текст слайдов → слайды ----
+const HEAD=/^\s*(?:слайд|slide|кадр|пост|shot|frame)?\s*#?(\d{1,2})\s*(?:[.):\-–—·|]|\s)\s*(.*)$/i;
+function splitSlides(text,kind){
+  const t=String(text||'').replace(/\r/g,'').trim(); if(!t)return [];
+  const lines=t.split('\n'); const heads=[]; let exp=1;
+  lines.forEach((l,i)=>{const m=l.match(HEAD);if(m&&+m[1]===exp){heads.push(i);exp++;}else if(m&&+m[1]===0&&exp===1){heads.push(i);exp=1;}});
+  let chunks=[];
+  if(heads.length>=2){for(let k=0;k<heads.length;k++){const a=heads[k],b=k+1<heads.length?heads[k+1]:lines.length;chunks.push({num:String(k+1).padStart(2,'0'),lines:lines.slice(a,b),numbered:true});}}
+  else{const paras=t.split(/\n\s*\n/).map(x=>x.trim()).filter(Boolean);
+    if(paras.length>=2&&kind!=='reel')chunks=paras.map((p,i)=>({num:String(i+1).padStart(2,'0'),lines:p.split('\n'),numbered:false}));
+    else chunks=[{num:'',lines:lines,numbered:false}];}
+  return chunks.map(ch=>{
+    let ls=ch.lines.map(x=>x.trim()).filter(Boolean); if(!ls.length)return null;
+    let sn=ch.num?`${ch.num}`:(kind==='reel'?'текст / voiceover':kind==='thread'?'пост':'текст');
+    if(ch.numbered){const m=ls[0].match(HEAD);ls[0]=(m?m[2]:ls[0]).trim();}
+    let first=ls[0];const lm=first.match(/^([^:«»"]{2,28}):\s*(.+)$/);
+    if(lm&&ch.numbered){sn+=' · '+lm[1].trim();first=lm[2].trim();}
+    let big='',small='';
+    if(ch.numbered||first.length<=140){big=first;small=ls.slice(1).join('\n');}else{small=ls.join('\n');}
+    if(big.length>200){small=(big+'\n'+small).trim();big='';}
+    return {n:sn,big,small};
+  }).filter(Boolean);
+}
+function splitHooks(s){return String(s||'').replace(/\r/g,'').split('\n').map(x=>x.replace(/^\s*(?:[A-CА-В1-3]|[•\-–—])[.:)]?\s+/i,'').trim()).filter(Boolean);}
+
+// ---- строка таблицы → пост ----
+const STATUS={plan:'План',review:'На утверждении',appr:'Утверждено',sched:'Запланировано',pub:'Опубликовано',redo:'Переделать',other:''};
+function normStatus(s){const x=String(s||'').trim().toLowerCase();if(!x)return 'plan';if(/опублик|posted|published/.test(x))return 'pub';if(/на утвержд|review|проверк/.test(x))return 'review';if(/переделать|redo|правк/.test(x))return 'redo';if(/запланир|scheduled/.test(x))return 'sched';if(/утвержд|approved/.test(x))return 'appr';if(/план|plan|draft|идея/.test(x))return 'plan';return 'other';}
+function kindOf(f){f=(f||'').toLowerCase();if(/карусел|carousel/.test(f))return 'car';if(/reels?|рилс|видео|video/.test(f))return 'reel';if(/событ|event/.test(f))return 'event';if(/ветк|thread|тред/.test(f))return 'thread';if(/сторис|stories|story/.test(f))return 'story';return 'post';}
+function chanOf(s,def){const x=(s||'').toLowerCase().trim();if(!x)return def;if(/thread|тред/.test(x))return 'th';if(/telegram|телег|^tg/.test(x))return 'tg';if(/insta|^ig|инст/.test(x))return 'ig';return def;}
+function rowToPost(r,m,tab,idx){
+  const g=k=>m[k]!=null?String(r[m[k]]||'').trim():'';
+  const date=parseDate(g('date')); if(!date)return null;
+  const fmt=g('fmt'), kind=kindOf(fmt), status=normStatus(g('status'));
+  const routeH=/higgsfield|·\s*h\b/i.test(fmt), routeC=/·\s*c\b|код|code/i.test(fmt), routeK=/·\s*k\b|canva/i.test(fmt);
+  const tm=fmt.match(/\bT([1-4])\b/i);
+  const postiz=g('postiz'), drive=g('drive'), plink=g('link');
+  const link=isUrl(plink)?plink:(isUrl(postiz)?postiz:'');
+  const hooks=splitHooks(g('hooks'));
+  const title=g('title')||hooks[0]||fmt||'Без темы';
+  const tags=[];
+  if(routeH)tags.push({t:'Higgsfield',c:'hf'});else if(routeK)tags.push({t:'Canva'});else if(routeC)tags.push({t:'код'});
+  if(tm)tags.push({t:'T'+tm[1]});
+  if(g('hunt'))tags.push({t:'Хант '+g('hunt').slice(0,12)});
+  if(g('result')&&!/^[—\-]+$/.test(g('result')))tags.push({t:g('result').slice(0,28)});
+  return {id:'p'+idx,ch:chanOf(g('channel'),tab.channel||'ig'),tab:tab.name,date,fmt,kind,status,statusRaw:g('status'),
+    title,hook:hooks[0]||fmt,hooks,cta:g('cta'),hunt:g('hunt'),prompt:g('prompt'),text:g('text'),
+    slides:splitSlides(g('text'),kind),media:g('media'),source:g('source'),
+    drive:isUrl(drive)?drive:'',driveNote:!isUrl(drive)&&drive&&!/^[—\-]+$/.test(drive)?drive:'',
+    postiz,postizOn:!!postiz&&!/^[—\-]+$/.test(postiz),link,routeH,tags};
+}
+
+// ===================== ЗАГРУЗКА =====================
+let POSTS=[],WEEKS=[],LOADED=null,LOADERR=null,timer=null,first=true;
+function csvUrl(tab){
+  const bust='_='+Date.now();
+  if(tab.gid!=null&&tab.gid!=='')return `https://docs.google.com/spreadsheets/d/${C.SHEET_ID}/export?format=csv&gid=${encodeURIComponent(tab.gid)}&${bust}`;
+  if(tab.url)return tab.url+(tab.url.includes('?')?'&':'?')+bust;
+  return `https://docs.google.com/spreadsheets/d/${C.SHEET_ID}/gviz/tq?tqx=out:csv&headers=1&sheet=${encodeURIComponent(tab.name)}&${bust}`;
+}
+async function loadTab(tab){
+  const res=await fetch(csvUrl(tab),{cache:'no-store',redirect:'follow'});
+  if(!res.ok)throw new Error('HTTP '+res.status);
+  const txt=await res.text();
+  if(/^\s*<(!doctype|html)/i.test(txt))throw new Error('HTML вместо CSV (нет доступа)');
+  const rows=parseCSV(txt).filter(r=>r.some(x=>String(x).trim()));
+  if(!rows.length)return [];
+  const m=mapCols(rows[0]);
+  return rows.slice(1).map((r,i)=>rowToPost(r,m,tab,tab.name+'_'+i)).filter(Boolean);
+}
+async function loadAll(manual){
+  const dot=document.getElementById('dot'),upd=document.getElementById('upd'),btn=document.getElementById('refresh');
+  dot.className='dotlive load';btn.classList.add('spin');upd.textContent='читаю таблицу…';
+  try{
+    if(!C.SHEET_ID)throw new Error('В config.js не задан SHEET_ID');
+    const tabs=C.TABS&&C.TABS.length?C.TABS:[{name:'Контент-план',gid:0,channel:'ig'}];
+    const parts=await Promise.all(tabs.map(loadTab));
+    POSTS=parts.flat().map((p,i)=>(p.id='p'+i,p)).sort((a,b)=>a.date<b.date?-1:a.date>b.date?1:0);
+    LOADERR=null;LOADED=new Date();
+    const mons=new Set(POSTS.map(p=>mondayOf(p.date)));mons.add(mondayOf(TODAY));
+    WEEKS=[...mons].sort().map(mon=>({id:mon,n:weekLabel(mon),cur:mon===mondayOf(TODAY)}));
+    if(first||!WEEKS.find(w=>w.id===curWeek))curWeek=mondayOf(TODAY);
+    first=false;
+    dot.className='dotlive';
+    upd.innerHTML=`обновлено <b>${LOADED.toTimeString().slice(0,5)}</b> · источник: таблица`;
+  }catch(e){
+    LOADERR=e;dot.className='dotlive err';upd.innerHTML=`<b style="color:#ff9f9f">ошибка</b> · ${esc(e.message)}`;console.error('Не удалось прочитать таблицу:',e);
+  }
+  btn.classList.remove('spin');
+  renderWeeks();renderTabs();render();
+  clearTimeout(timer);timer=setTimeout(()=>loadAll(false),Math.max(1,C.REFRESH_MIN||5)*60*1000);
+}
+
+// ===================== РЕНДЕР =====================
+const fmtName={car:'Карусель',reel:'Reels',post:'Пост',thread:'Ветка Threads',event:'Событие',story:'Сторис'};
+const fmtCls={car:'b-car',reel:'b-reel',post:'b-post',thread:'b-thread',event:'b-event',story:'b-story'};
+const chName={ig:'Instagram',th:'Threads',tg:'Telegram'};
+let selDay=null, curTab='over', curWeek=mondayOf(TODAY);
+function inWeek(p){return mondayOf(p.date)===curWeek;}
+function isOpen(p){return p.status!=='pub';}
+function queue(){return POSTS.filter(p=>p.routeH&&p.status!=='pub');}
+function tabsList(){
+  const chans=new Set((C.TABS||[]).map(t=>t.channel||'ig'));POSTS.forEach(p=>chans.add(p.ch));
+  const t=[{id:'over',n:'Обзор'}];
+  ['ig','th','tg'].forEach(c=>{if(chans.has(c))t.push({id:c,n:chName[c],cnt:POSTS.filter(p=>p.ch===c&&inWeek(p)).length});});
+  t.push({id:'hf',n:'🤖 Higgsfield',cnt:queue().length});
+  return t;
+}
+function statusPill(p){return `<span class="stt ${p.status}">${esc(STATUS[p.status]||p.statusRaw||'—')}</span>`;}
+function cardHTML(p){
+  return `<div class="card" onclick="openModal('${p.id}')">
+   <div class="top"><span class="badge ${fmtCls[p.kind]}">${fmtName[p.kind]}</span>${statusPill(p)}
+     ${p.postizOn?'<span class="tag postiz">⟳ Postiz</span>':''}
+     <span class="date">${dm(p.date)} · ${wd(p.date)}</span></div>
+   <h3>${esc(p.title)}</h3><div class="hook">${esc(p.hook)}</div>
+   <div class="tags">${p.tags.map(t=>`<span class="tag ${t.c||''}">${esc(t.t)}</span>`).join('')}${p.drive?'<span class="tag claude">📁 Drive</span>':''}</div>
+   <div class="foot">${p.cta&&p.cta!=='—'?`<span class="cta" title="${esc(p.cta)}">${esc(p.cta)}</span>`:''}<span class="openx">${p.link?(p.kind==='reel'?'Открыть Reels →':'Открыть пост →'):'Открыть текст →'}</span></div>
+  </div>`;
+}
+function gridHTML(list,emptyText){return list.length?`<div class="grid">${list.map(cardHTML).join('')}</div>`:`<div class="empty">${emptyText||'Пусто — рутина добавит.'}</div>`;}
+function weekHTML(filterCh){
+  const days=[];
+  for(let i=0;i<7;i++){const iso=addDays(curWeek,i);
+    const cnt=POSTS.filter(p=>p.date===iso&&(!filterCh||p.ch===filterCh)).length;
+    days.push(`<div class="day ${iso===TODAY?'today':''} ${selDay===iso?'sel':''}" onclick="pickDay('${iso}')"><div class="dn">${wd(iso)}</div><div class="dd">${D(iso).getDate()}</div><div class="cnt">${cnt?plural(cnt,'пост','поста','постов'):''}</div></div>`);}
+  return `<div class="week">${days.join('')}</div>`;
+}
+function wkTitle(){const w=WEEKS.find(x=>x.id===curWeek);return w?w.n:weekLabel(curWeek);}
+function errorBox(){
+  const e=LOADERR?LOADERR.message:'';
+  const isFile=location.protocol==='file:';
+  return `<div class="msg err"><h2>Не могу прочитать таблицу</h2>
+   <div style="color:var(--mut)">Ошибка: <code>${esc(e)}</code></div>
+   <ol>${isFile?'<li>Ты открыла файл двойным кликом (<code>file://</code>) — так Google не отдаёт таблицу. Для предпросмотра запусти в папке <code>npx serve .</code> (или <code>python3 -m http.server 8000</code>) и открой <code>http://localhost:8000</code>. Или просто задеплой: <code>npx vercel --prod --yes</code>.</li>':''}<li>Открой таблицу → <b>Настройки доступа</b> → «Все, у кого есть ссылка» → <b>Читатель</b>.</li>
+   <li>Проверь <b>SHEET_ID</b> и <b>gid</b> вкладки в <code>config.js</code>.</li>
+   <li>Нажми ↻ вверху. Подробности — в README.</li></ol></div>`;
+}
+function emptyBox(){return `<div class="msg"><h2>Таблица пуста — запусти content-plan</h2><div style="color:var(--mut)">Как только в таблице появятся строки с датой, они появятся здесь. Проверь, что колонка «Дата» заполнена (ГГГГ-ММ-ДД, ДД.ММ.ГГГГ или «17 сент.»).</div></div>`;}
+function overview(){
+  const wp=POSTS.filter(inWeek);
+  const pub=wp.filter(p=>p.status==='pub').length,open=wp.filter(isOpen).length,pz=wp.filter(p=>p.postizOn).length;
+  const list=selDay?POSTS.filter(p=>p.date===selDay):wp.filter(isOpen);
+  const secTitle=selDay?`Контент на ${dm(selDay)} · ${wd(selDay)} — все каналы`:`В работе на неделю ${wkTitle()}`;
+  const recent=!selDay?`<div class="sec"><h2>Опубликовано на неделе</h2><span class="pill">${pub}</span><div class="ln"></div></div>${gridHTML(wp.filter(p=>p.status==='pub'),'На этой неделе пока ничего не опубликовано.')}`:'';
+  return `<div class="hero"><h1>Контент-<span>платформа</span></h1>
+   <p>${esc(C.TAGLINE||'Один план на все каналы. Таблица — мозг, сайт читает её сам.')}</p>
+   <div class="kpis"><div class="kpi"><b>${pub}</b><span>опубликовано</span></div><div class="kpi"><b>${open}</b><span>в работе</span></div><div class="kpi"><b>${pz}</b><span>в Postiz</span></div><div class="kpi"><b>${queue().length}</b><span>очередь Higgsfield</span></div></div></div>
+   <div class="sec"><h2>Кликни на день</h2><span class="pill">неделя ${wkTitle()}</span><div class="ln"></div></div>${weekHTML()}
+   <div class="sec"><h2>${secTitle}</h2><div class="ln"></div>${selDay?'<span class="clearday" onclick="pickDay(null)">Показать все ✕</span>':''}</div>${gridHTML(list,'На эту неделю в работе ничего нет.')}
+   ${recent}`;
+}
+function channel(ch,title,desc){
+  let list=POSTS.filter(p=>p.ch===ch&&inWeek(p));
+  if(selDay)list=list.filter(p=>p.date===selDay);
+  const plan=list.filter(isOpen),pub=list.filter(p=>p.status==='pub');
+  return `<div class="hero"><h1>${esc(title)}</h1><p>${desc}</p></div>
+   <div class="sec"><h2>Неделя ${wkTitle()}</h2><div class="ln"></div>${selDay?`<span class="clearday" onclick="pickDay(null)">Показать все ✕</span>`:''}</div>${weekHTML(ch)}
+   ${plan.length?`<div class="sec"><h2>В работе</h2><span class="pill">${plan.length}</span><div class="ln"></div></div>${gridHTML(plan)}`:''}
+   ${pub.length?`<div class="sec"><h2>Опубликовано</h2><span class="pill">${pub.length}</span><div class="ln"></div></div>${gridHTML(pub)}`:''}
+   ${!plan.length&&!pub.length?gridHTML([]):''}`;
+}
+function higgs(){
+  const list=queue();
+  return `<div class="hero"><h1>🤖 Очередь <span>Higgsfield</span></h1>
+   <p>Строки таблицы, у которых в «Формат» маршрут <b style="color:var(--gold)">H</b> (Higgsfield) и статус ещё не «Опубликовано». Рутина берёт промт из колонки G, генерит с твоим лицом по референсу и кладёт в Google Drive — ссылка возвращается в план.</p></div>
+   <div class="flow"><span class="st">Таблица (промт)</span><span class="ar">→</span><span class="st">Higgsfield</span><span class="ar">→</span><span class="st">Google Drive</span><span class="ar">→</span><span class="st">ссылка в план</span></div>
+   ${list.length?`<div class="grid">${list.map(q=>`<div class="q"><div class="qhead"><h3>${esc(q.title)}</h3>${statusPill(q)}</div>
+     <div class="qmeta"><span>📅 <b>${dm(q.date)} · ${wd(q.date)}</b></span>${q.slides.length>1?`<span>🖼 <b>${plural(q.slides.length,'слайд','слайда','слайдов')}</b></span>`:''}<span>🎛 <b>${esc(q.fmt)}</b></span>${q.media&&q.media!=='—'?`<span>📸 <b>${esc(q.media.slice(0,40))}</b></span>`:''}</div>
+     ${q.prompt?`<pre class="pr">${esc(q.prompt)}</pre>`:'<div class="empty">Промта в колонке G нет.</div>'}
+     <div class="acts">${q.prompt?`<button class="gbtn" onclick="copyTxt(this,'${q.id}','prompt')">📋 Копировать промт</button>`:''}<button class="gbtn sec" onclick="openModal('${q.id}')">Текст слайдов →</button>${q.drive?`<a class="drivelink" href="${esc(q.drive)}" target="_blank">📁 Готово в Drive</a>`:''}</div></div>`).join('')}</div>`
+   :`<div class="empty">Очередь пуста: нет строк с маршрутом H, которые ещё не опубликованы.</div>`}`;
+}
+function render(){
+  const app=document.getElementById('app');
+  if(LOADERR&&!POSTS.length){app.innerHTML=errorBox();return;}
+  if(!POSTS.length){app.innerHTML=emptyBox();return;}
+  const h=BRAND.handle?esc(BRAND.handle)+'. ':'';
+  if(curTab==='over')app.innerHTML=overview();
+  else if(curTab==='ig')app.innerHTML=channel('ig','Instagram',`Карусели и рилсы ${h}Кликни на пост — текст на каждый слайд + ссылка. Опубликованный рилс открывается в Instagram.`);
+  else if(curTab==='th')app.innerHTML=channel('th','Threads','Ветки на неделю. Кликни на ветку — дословный текст + «Копировать».');
+  else if(curTab==='tg')app.innerHTML=channel('tg','Telegram','Канал: анонсы, лонг-посты, дожимы.');
+  else if(curTab==='hf')app.innerHTML=higgs();
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.id===curTab));
+  document.querySelectorAll('.wk').forEach(t=>t.classList.toggle('active',t.dataset.id===curWeek));
+}
+function renderWeeks(){
+  const el=document.getElementById('weeks');el.innerHTML='';
+  WEEKS.forEach(w=>{const d=document.createElement('div');d.className='wk'+(w.cur?' cur':'');d.dataset.id=w.id;d.textContent=w.n;d.title=w.cur?'текущая неделя':'';d.onclick=()=>switchWeek(w.id);el.appendChild(d);});
+  const act=el.querySelector('.wk.active')||el.querySelector(`[data-id="${curWeek}"]`);if(act)act.scrollIntoView({inline:'center',block:'nearest'});
+}
+function renderTabs(){
+  const tb=document.getElementById('tabs');tb.innerHTML='';
+  tabsList().forEach(t=>{const el=document.createElement('div');el.className='tab';el.dataset.id=t.id;el.innerHTML=esc(t.n)+(t.cnt?`<span class="n">${t.cnt}</span>`:'');el.onclick=()=>switchTab(t.id);tb.appendChild(el);});
+  if(!tabsList().find(t=>t.id===curTab))curTab='over';
+}
+function pickDay(iso){selDay=(selDay===iso)?null:iso;render();}
+function switchTab(id){curTab=id;window.scrollTo({top:0,behavior:'smooth'});render();}
+function switchWeek(id){curWeek=id;selDay=null;window.scrollTo({top:0,behavior:'smooth'});renderTabs();render();}
+
+// ===================== МОДАЛКА =====================
+function linkLabel(p){const u=(p.link||'').toLowerCase();const where=/threads\./.test(u)?'в Threads':/t\.me|telegram/.test(u)?'в Telegram':/instagram/.test(u)?'в Instagram':'';return (p.kind==='reel'?'▶ Открыть Reels ':'↗ Открыть пост ')+where;}
+function slideText(s){return (s.big||'')+(s.big&&s.small?'\n':'')+(s.small||'');}
+function openModal(pid){
+  const p=POSTS.find(x=>x.id===pid);if(!p)return;
+  const isThread=p.kind==='thread'||p.ch==='th';
+  const slidesHTML=p.slides.map((s,i)=>`<div class="slide"><div class="sn">${esc(s.n)}</div>${s.big?`<div class="sbig">${esc(s.big)}</div>`:''}${s.small?`<div class="ssmall">${esc(s.small)}</div>`:''}<button class="copy" onclick="copyTxt(this,'${p.id}','slide',${i})">Копировать</button></div>`).join('');
+  const meta=[esc(p.fmt),p.hunt?'ступень Ханта: <b style="color:var(--cream)">'+esc(p.hunt)+'</b>':'',p.media&&p.media!=='—'?'📸 '+esc(p.media):'',p.source&&p.source!=='—'?'🖼 '+esc(p.source):'',p.driveNote?'📁 '+esc(p.driveNote):'',p.postizOn&&!isUrl(p.postiz)?'⟳ Postiz: '+esc(p.postiz):''].filter(Boolean).join(' · ');
+  document.getElementById('modal').innerHTML=`
+   <div class="mhead"><span class="close" onclick="closeModal()">×</span>
+     <div class="mt"><span class="badge ${fmtCls[p.kind]}">${fmtName[p.kind]}</span>${statusPill(p)}${p.postizOn?'<span class="tag postiz">⟳ Postiz</span>':''}<span class="date">${chName[p.ch]||''} · ${dm(p.date)} · ${wd(p.date)}</span></div>
+     <h2>${esc(p.title)}</h2>
+     <div class="md">${meta}${p.cta&&p.cta!=='—'?` · CTA: <b style="color:var(--gold)">${esc(p.cta)}</b>`:''}</div>
+   </div>
+   <div class="mbody ${isThread?'thread':''}">
+     ${p.link?`<a class="reelbtn" href="${esc(p.link)}" target="_blank">${linkLabel(p)}</a>`:''}
+     ${p.drive?`<a class="reelbtn sec" href="${esc(p.drive)}" target="_blank">📁 Открыть медиа в Google Drive</a>`:''}
+     ${p.hooks.length?`<div class="slide hooks"><div class="sn">Хуки · ${p.hooks.length} ${p.hooks.length===1?'вариант':'варианта'}</div><div class="ssmall" style="margin-top:0">${p.hooks.map((h,i)=>esc((i+1)+'. '+h)).join('\n')}</div><button class="copy" onclick="copyTxt(this,'${p.id}','hooks')">Копировать</button></div>`:''}
+     ${p.slides.length>1?`<button class="gbtn copyall" onclick="copyTxt(this,'${p.id}','all')">📋 Копировать весь текст</button>`:''}
+     ${slidesHTML||'<div class="empty">Текст слайдов ещё не написан — колонка «Voiceover / Текст слайдов» пуста.</div>'}
+     ${p.prompt?`<details class="more"><summary>🎨 Промпт / дизайн (колонка G)</summary><div class="in"><pre class="pr">${esc(p.prompt)}</pre><button class="copy" style="top:-2px" onclick="copyTxt(this,'${p.id}','prompt')">Копировать</button></div></details>`:''}
+     ${p.routeH&&p.status!=='pub'?`<div style="margin-top:16px"><button class="gbtn sec" onclick="closeModal();switchTab('hf')">🤖 Открыть в очереди Higgsfield →</button></div>`:''}
+   </div>`;
+  document.getElementById('ov').classList.add('open');
+}
+function closeModal(){document.getElementById('ov').classList.remove('open');}
+document.getElementById('ov').addEventListener('click',e=>{if(e.target.id==='ov')closeModal();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+function textFor(p,what,i){
+  const isThread=p.kind==='thread'||p.ch==='th';
+  if(what==='slide')return slideText(p.slides[i]||{});
+  if(what==='hooks')return p.hooks.map((h,i)=>(i+1)+'. '+h).join('\n');
+  if(what==='prompt')return p.prompt;
+  if(what==='all')return p.slides.map((s,i)=>(isThread?'':'Слайд '+(i+1)+': ')+slideText(s)).join('\n\n');
+  return '';
+}
+function copyTxt(btn,pid,what,i){
+  const p=POSTS.find(x=>x.id===pid);if(!p)return;
+  const txt=textFor(p,what,i);
+  const done=()=>{const o=btn.textContent;btn.textContent='✓ Скопировано';btn.classList.add('ok');setTimeout(()=>{btn.textContent=o;btn.classList.remove('ok');},1400);};
+  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(txt).then(done).catch(()=>fallbackCopy(txt,done));
+  else fallbackCopy(txt,done);
+}
+function fallbackCopy(t,done){const ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');done();}catch(e){}document.body.removeChild(ta);}
+
+loadAll(true);
+</script>
+</body>
+</html>
