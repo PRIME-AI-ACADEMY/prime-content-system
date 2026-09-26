@@ -99,10 +99,6 @@ def parse_design_system(md_path):
             found["accent"] = h0
         elif "text" not in found and re.search(r"текст|text|cream|беж|слонов", low):
             found["text"] = h0
-        elif "card" not in found and re.search(r"карточк|card|плашк", low):
-            found["card"] = h0
-    if "card" in found:
-        brand["card"] = found.pop("card")
     order = [h for h in hexes_in_order if h not in found.values()]
     for key in ("bg", "text", "accent"):
         if key in found:
@@ -202,16 +198,13 @@ def cascade():
         import cv2
     except ImportError:
         print("[warn] OpenCV не установлен — лица не проверяю. Поставь: "
-              'python -m pip install "opencv-python-headless<5" (в OpenCV 5 нет CascadeClassifier)')
+              'python -m pip install "opencv-python-headless<5"')
         _CASCADE = False
         return None
     cands = []
     if hasattr(cv2, "data") and getattr(cv2.data, "haarcascades", ""):
         cands.append(os.path.join(cv2.data.haarcascades, HAAR_NAME))
     cands.append(os.path.join(LAB, "fonts", HAAR_NAME))
-    cands.append(os.path.join(os.path.dirname(LAB), "fonts", HAAR_NAME))  # fonts/ в корне проекта (tools/../fonts)
-    cands.append(os.path.join(os.getcwd(), "fonts", HAAR_NAME))            # fonts/ текущей папки
-    cands.append(os.path.join(os.getcwd(), HAAR_NAME))
     cands.append(os.path.join(os.path.expanduser("~"), ".reels-fonts", HAAR_NAME))
     path = next((p for p in cands if os.path.isfile(p)), None)
     if not path or not hasattr(cv2, "CascadeClassifier"):
@@ -222,16 +215,56 @@ def cascade():
     return _CASCADE
 
 
+YUNET_NAME = "face_detection_yunet_2023mar.onnx"
+YUNET_URL = ("https://github.com/opencv/opencv_zoo/raw/main/models/face_detection_yunet/"
+             "face_detection_yunet_2023mar.onnx")
+_YUNET = None
+
+
+def yunet():
+    """YuNet (OpenCV DNN): видит лица в три четверти, с руками у лица, в наклоне. Haar — только анфас."""
+    global _YUNET
+    if _YUNET is not None:
+        return _YUNET or None
+    try:
+        import cv2
+        cands = [os.path.join(LAB, "fonts", YUNET_NAME),
+                 os.path.join(os.path.expanduser("~"), ".reels-fonts", YUNET_NAME)]
+        path = next((p for p in cands if os.path.isfile(p)), None)
+        if path and hasattr(cv2, "FaceDetectorYN"):
+            _YUNET = cv2.FaceDetectorYN.create(path, "", (320, 320), 0.6, 0.3, 5000)
+            return _YUNET
+    except Exception as e:  # noqa: BLE001
+        print("[warn] YuNet не загрузился ({}) — использую Haar".format(e))
+    _YUNET = False
+    return None
+
+
 def faces(img, min_size=90):
     """Список bbox лиц (x,y,w,h) на PIL-картинке. Пусто — не найдено. None — детектора нет."""
+    import numpy as np
+    rgb = np.array(img.convert("RGB"))
+    yn = yunet()
+    if yn is not None:
+        import cv2
+        bgr = cv2.cvtColor(rgb, cv2.COLOR_RGB2BGR)
+        yn.setInputSize((bgr.shape[1], bgr.shape[0]))
+        _, det = yn.detect(bgr)
+        out = []
+        if det is not None:
+            for d in det:
+                x, y, w, h = (int(v) for v in d[:4])
+                if w >= min_size * 0.6 and h >= min_size * 0.6:
+                    out.append((max(0, x), max(0, y), w, h))
+        return out
     c = cascade()
     if c is None:
         return None
     import cv2
-    import numpy as np
-    gray = cv2.equalizeHist(cv2.cvtColor(np.array(img.convert("RGB")), cv2.COLOR_RGB2GRAY))
-    det = c.detectMultiScale(gray, 1.1, 5, minSize=(min_size, min_size))
-    return [tuple(int(v) for v in f) for f in det]
+    gray = cv2.equalizeHist(cv2.cvtColor(rgb, cv2.COLOR_RGB2GRAY))
+    det = c.detectMultiScale(gray, 1.1, 6, minSize=(min_size, min_size))
+    # Haar видит только анфас; «лицо» в нижней части портрета — почти всегда колени или руки.
+    return [tuple(int(v) for v in f) for f in det if f[1] < img.height * 0.6]
 
 
 def face_box(img):
