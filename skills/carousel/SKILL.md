@@ -29,6 +29,7 @@ description: "Собирает Instagram-карусель по типу конт
 - Модель `nano_banana_pro`, 4:5, 2k, ≈2 кредита за слайд. 4–6 слайдов (обложка + смысловые + финал с CTA-плашкой).
 - **Референс лица в `medias` на каждом слайде.** Нет Soul — сначала референс-лист за 2 кредита, потом слайды с ним (раздел в шаблоне).
 - **Референс лица — сначала лист-эталон** по `${CLAUDE_PLUGIN_ROOT}/skills/carousel/references/reference-sheet-prompt.md` (nano_banana_pro, 3:2, шесть ракурсов; делается один раз, прикладывается вместе с фото анфас к каждой генерации H).
+- **Нейрофотосессия (банк своих фото) — по `${CLAUDE_PLUGIN_ROOT}/skills/carousel/references/neuro-photoshoot-prompts.md`**: БАЗА + сцена, два референса на кадр, сцены показать на утверждение до генерации.
 - **Промпт слайда — только по `${CLAUDE_PLUGIN_ROOT}/skills/carousel/references/higgsfield-prompt-template.md`**: шаблон целиком на каждом слайде, один наряд, палитра из design-system, ONE full-bleed frame, текст один раз, «each line exactly once», без кавычек, без номеров слайдов и COVER.
 - **Перед генерацией почисти промпт из таблицы** (раздел «Чистка» в шаблоне): убери «», «Слайд NN», «Slide N of M», COVER, CTA-метки; допиши строки про цельный кадр и «exactly once», если их нет. Текст — из колонки H дословно.
 - Сцены и ловушки перевода — `${CLAUDE_PLUGIN_ROOT}/skills/carousel/references/higgsfield-visual-standard.md`.
