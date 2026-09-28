@@ -161,7 +161,8 @@ class Ctx:
 def chrome(c, d, n, on_photo=False):
     """Счётчик сверху-слева, ник снизу-слева. Правые углы IG не трогаем."""
     fs = c.f(700, 26)
-    d.text((M, TOP_Y), "{:02d} / {:02d}".format(n, c.total), font=fs, fill=c.ac)
+    if getattr(c, "spec", {}).get("counter", True):
+        d.text((M, TOP_Y), "{:02d} / {:02d}".format(n, c.total), font=fs, fill=c.ac)
     d.text((M, FOOT_Y), c.handle, font=fs, fill=c.tx)
 
 
