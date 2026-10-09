@@ -150,7 +150,8 @@ claude
 
 **Как обновлять плагин потом** (когда выйдет новая версия): тот же терминал `>_` → `claude` →
 ```
-/plugin marketplace update prime-ai
+claude plugin marketplace update prime-ai
+claude plugin update prime-content-system@prime-ai
 ```
 → закрыть и открыть приложение. Проверка: «какая версия prime-content-system?»
 
