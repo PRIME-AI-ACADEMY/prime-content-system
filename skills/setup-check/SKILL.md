@@ -14,7 +14,7 @@ description: "Проверяет установку контент-завода 
 
 ## 2. Плагин
 - Посчитай доступные скиллы `prime-content-system:*` — должно быть **21**: foundation, business-dna, offer-builder, audience-builder, hunt-ladder, funnels, tone-of-voice-builder, design-system-builder, content-plan, content-pipeline, reels, reels-montazh, carousel, short-post, long-post, stories, article, viral-hooks, autopost, content-routine, setup-check. ❌ → `/plugin marketplace add PRIME-AI-ACADEMY/prime-content-system` → `/plugin install prime-content-system@prime-ai` → полный перезапуск.
-- Версия плагина 0.12.0 или новее? Старая → `/plugin marketplace update prime-ai`, затем перезапуск.
+- Версия плагина 0.14.0 или новее? Старая → выполни сам `claude plugin marketplace update prime-ai` и `claude plugin update prime-content-system@prime-ai`, затем полный перезапуск приложения.
 
 ## 3. Инструменты (Bash)
 - `python3 --version` — маршрут C каруселей. ❌ → Mac: `brew install python`; Windows: `winget install Python.Python.3.12`, галочка «Add to PATH».
