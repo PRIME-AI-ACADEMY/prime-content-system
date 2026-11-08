@@ -1,6 +1,6 @@
 ---
 name: setup-check
-description: "Проверяет установку контент-завода и даёт отчёт с галочками: версия приложения Claude, плагин и число скиллов (21), Python + Pillow + OpenCV<5 с каскадом лиц, ffmpeg, Node.js + HyperFrames + Remotion + whisper (трек «монтаж», опционально), коннекторы Higgsfield / Composio (Google Sheets + Drive) / Postiz / Vercel с записью их реальных id в allow-лист, мост в Drive, папка profile/, таблица контент-плана. По каждому ❌ — одна строка, что сделать. Триггеры: проверь установку, setup-check, всё ли готово, диагностика, что не так, проверка системы, готова ли система."
+description: "Проверяет установку контент-завода и даёт отчёт с галочками: версия приложения Claude, плагин и число скиллов (22), Python + Pillow + OpenCV<5 с каскадом лиц, ffmpeg, Node.js + HyperFrames + Remotion + whisper (трек «монтаж», опционально), коннекторы Higgsfield / Composio (Google Sheets + Drive) / Postiz / Vercel с записью их реальных id в allow-лист, мост в Drive, папка profile/, таблица контент-плана. По каждому ❌ — одна строка, что сделать. Триггеры: проверь установку, setup-check, всё ли готово, диагностика, что не так, проверка системы, готова ли система."
 ---
 
 # Setup Check — диагностика установки
@@ -13,7 +13,7 @@ description: "Проверяет установку контент-завода 
 - Версия ≥ 2.1.193 (иначе команды `/plugin` не работают). Посмотри через `/status` или меню → About. ❌ → обнови приложение (Check for updates) и полностью перезапусти.
 
 ## 2. Плагин
-- Посчитай доступные скиллы `prime-content-system:*` — должно быть **21**: foundation, business-dna, offer-builder, audience-builder, hunt-ladder, funnels, tone-of-voice-builder, design-system-builder, content-plan, content-pipeline, reels, reels-montazh, carousel, short-post, long-post, stories, article, viral-hooks, autopost, content-routine, setup-check. ❌ → `/plugin marketplace add PRIME-AI-ACADEMY/prime-content-system` → `/plugin install prime-content-system@prime-ai` → полный перезапуск.
+- Посчитай доступные скиллы `prime-content-system:*` — должно быть **22**: foundation, business-dna, offer-builder, audience-builder, hunt-ladder, funnels, tone-of-voice-builder, design-system-builder, content-plan, content-pipeline, reels, reels-montazh, reels-golova, carousel, short-post, long-post, stories, article, viral-hooks, autopost, content-routine, setup-check. ❌ → `/plugin marketplace add PRIME-AI-ACADEMY/prime-content-system` → `/plugin install prime-content-system@prime-ai` → полный перезапуск.
 - Версия плагина 0.14.0 или новее? Старая → выполни сам `claude plugin marketplace update prime-ai` и `claude plugin update prime-content-system@prime-ai`, затем полный перезапуск приложения.
 
 ## 3. Инструменты (Bash)

@@ -64,7 +64,7 @@
 - `content-routine` — ежедневный автопилот: утром генерит на N дней вперёд, ночью автопостит (cron)
 
 **Диагностика (1):**
-- `setup-check` — проверяет приложение, плагин (21 скилл), Python + Pillow + OpenCV<5, ffmpeg, трек «монтаж», коннекторы (Higgsfield / Composio / Postiz / Vercel) и дописывает их id в allow-лист, мост в Drive, `profile/`, таблицу; таблица ✅/❌ + что сделать
+- `setup-check` — проверяет приложение, плагин (22 скилла), Python + Pillow + OpenCV<5, ffmpeg, трек «монтаж», коннекторы (Higgsfield / Composio / Postiz / Vercel) и дописывает их id в allow-лист, мост в Drive, `profile/`, таблицу; таблица ✅/❌ + что сделать
 
 ## Таксономия каруселей (общая для content-plan и carousel)
 
